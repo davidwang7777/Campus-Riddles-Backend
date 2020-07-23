@@ -8,6 +8,6 @@ import com.SobreMesa.Campus.Riddles.entity.Riddle;
 
 public interface RiddlesRepository extends CrudRepository<Riddle, Integer> {
 	
-	public List<Riddle> findByName(String name);
+	//public List<Riddle> findByName(String name);
 
 }

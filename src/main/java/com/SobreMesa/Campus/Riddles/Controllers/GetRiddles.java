@@ -50,6 +50,21 @@ public class GetRiddles {
 	@Autowired
 	RiddlesService rs; 
 	
+	@RequestMapping("/test")
+	public void test(){
+		/*
+		 * This method gets all riddles available in the database
+		 * 
+		 * Args:
+		 * 		None
+		 * 
+		 * Returns:
+		 * 		returns a list of Riddle objects where each attribute in the object is taken
+		 * 		from the database
+		 */
+		System.out.println("hello spring");
+	}
+	
 	
 	@RequestMapping("/Riddles")
 	public List<Riddle> getAllRiddles(){

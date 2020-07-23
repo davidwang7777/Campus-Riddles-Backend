@@ -26,9 +26,9 @@ public class Riddle {
 	private String title;
 	private int difficulty;
 	private String prize;
-	private String riddlerName;
+	private String riddlername;
 	private int levels;
-	private String riddleDescription;
+	private String riddledescription;
 	
 	/*
 	 * CONSTRUCTORS
@@ -41,9 +41,9 @@ public class Riddle {
 		this.title = title;
 		this.difficulty = difficulty;
 		this.prize = prize;
-		this.riddlerName = riddlerName;
+		this.riddlername = riddlerName;
 		this.levels = levels;
-		this.riddleDescription = description;
+		this.riddledescription = description;
 	}
 
 	
@@ -92,12 +92,12 @@ public class Riddle {
 
 
 	public String getRiddlerName() {
-		return riddlerName;
+		return riddlername;
 	}
 
 
 	public void setRiddlerName(String riddlerName) {
-		this.riddlerName = riddlerName;
+		this.riddlername = riddlerName;
 	}
 
 
@@ -112,12 +112,12 @@ public class Riddle {
 
 
 	public String getDescription() {
-		return riddleDescription;
+		return riddledescription;
 	}
 
 
 	public void setDescription(String description) {
-		this.riddleDescription = description;
+		this.riddledescription = description;
 	}
 	
 	/*

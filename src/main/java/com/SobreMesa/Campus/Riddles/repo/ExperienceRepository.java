@@ -9,5 +9,5 @@ import com.SobreMesa.Campus.Riddles.entity.Riddle;
 
 public interface ExperienceRepository extends CrudRepository<Experience, Integer> {
 
-	public List<Experience> findByRiddleid(int riddleid);
+	//public List<Experience> findByRiddleid(int riddleid);
 }
