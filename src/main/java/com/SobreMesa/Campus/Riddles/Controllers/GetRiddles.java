@@ -1,12 +1,16 @@
 package com.SobreMesa.Campus.Riddles.Controllers;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +49,17 @@ import com.SobreMesa.Campus.Riddles.entity.*;
 
 
 @RestController
+
 public class GetRiddles {
+	@Bean
+	public WebMvcConfigurer configure() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/*").allowedOrigins("http://localhost:8080");
+			}
+		};
+	}
 	
 	@Autowired
 	RiddlesService rs; 
@@ -65,7 +79,8 @@ public class GetRiddles {
 		System.out.println("hello spring");
 	}
 	
-	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	//@CrossOrigin(origins="*")
 	@RequestMapping("/Riddles")
 	public List<Riddle> getAllRiddles(){
 		/*
@@ -81,7 +96,7 @@ public class GetRiddles {
 		return rs.getAllRiddles();
 	}
 	
-	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@RequestMapping(method=RequestMethod.PUT, value="/Riddles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void updateRiddle(@RequestBody Riddle riddle) {
 		/*
@@ -99,6 +114,7 @@ public class GetRiddles {
 		rs.updateRiddle(riddle);
 	}
 	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@RequestMapping(method=RequestMethod.DELETE, value="/Riddles/{id}")
 	public void deleteRiddle(@RequestBody Riddle riddle) {
 		/*
@@ -117,7 +133,7 @@ public class GetRiddles {
 		rs.deleteRiddle(riddle);
 	}
 	
-	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@RequestMapping(method= RequestMethod.POST, value="/Riddles")
 	public void addRiddle(@RequestBody Riddle riddle) {
 	   /* this method takes a json structure that is created in the front end that represents
@@ -130,6 +146,7 @@ public class GetRiddles {
 		*	Returns:
 		*		None
 		*/
+		
 		rs.addRiddle(riddle);
 	}
 	
