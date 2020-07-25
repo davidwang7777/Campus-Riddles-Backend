@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.SobreMesa.Campus.Riddles.Services.RiddlesService;
 import com.SobreMesa.Campus.Riddles.entity.*;
@@ -47,19 +48,9 @@ import com.SobreMesa.Campus.Riddles.entity.*;
  * 
  */
 
-
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-
 public class GetRiddles {
-	@Bean
-	public WebMvcConfigurer configure() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/*").allowedOrigins("http://localhost:8080");
-			}
-		};
-	}
 	
 	@Autowired
 	RiddlesService rs; 
@@ -79,9 +70,9 @@ public class GetRiddles {
 		System.out.println("hello spring");
 	}
 	
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	//@CrossOrigin(origins = "*", allowedHeaders = "*")
 	//@CrossOrigin(origins="*")
-	@RequestMapping("/Riddles")
+	@RequestMapping("api/Riddles")
 	public List<Riddle> getAllRiddles(){
 		/*
 		 * This method gets all riddles available in the database
@@ -96,8 +87,8 @@ public class GetRiddles {
 		return rs.getAllRiddles();
 	}
 	
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@RequestMapping(method=RequestMethod.PUT, value="/Riddles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	//@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@RequestMapping(method=RequestMethod.PUT, value="api//Riddles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void updateRiddle(@RequestBody Riddle riddle) {
 		/*
 		 * This method is first gets the json structure in the RequestBody. That json structure
@@ -111,11 +102,13 @@ public class GetRiddles {
 		 * Returns:
 		 * 		None
 		 */
+		System.out.println("Called the put function");
+		
 		rs.updateRiddle(riddle);
 	}
 	
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@RequestMapping(method=RequestMethod.DELETE, value="/Riddles/{id}")
+	//@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@RequestMapping(method=RequestMethod.DELETE, value="api/Riddles/{id}")
 	public void deleteRiddle(@RequestBody Riddle riddle) {
 		/*
 		 * This method takes a json structure of a riddle and deletes that riddle if it
@@ -133,8 +126,26 @@ public class GetRiddles {
 		rs.deleteRiddle(riddle);
 	}
 	
-	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@RequestMapping(method= RequestMethod.POST, value="/Riddles")
+	
+//	@PostMapping(value = "api/Riddles", consumes = MediaType.APPLICATION_JSON_VALUE)
+//	public void addRiddle(@RequestBody Riddle riddle){
+//		/*
+//		 * This method takes a json structure of a riddle.
+//		 * TODO: find difference between post and put
+//		 * 
+//		 * Args:
+//		 * 		Riddle json data
+//		 * 
+//		 * Returns:
+//		 * 		None
+//		 */
+//		rs.addRiddle(riddle);
+//	}
+	
+	
+	
+	
+	@RequestMapping(method= RequestMethod.POST, value="api/Riddles")
 	public void addRiddle(@RequestBody Riddle riddle) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a riddle object. it then gets added to the database
