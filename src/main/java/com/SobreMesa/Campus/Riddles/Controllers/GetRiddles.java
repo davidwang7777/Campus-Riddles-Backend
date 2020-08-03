@@ -72,7 +72,7 @@ public class GetRiddles {
 	
 	//@CrossOrigin(origins = "*", allowedHeaders = "*")
 	//@CrossOrigin(origins="*")
-	@RequestMapping("api/Riddles")
+	@RequestMapping("api/riddles")
 	public List<Riddle> getAllRiddles(){
 		/*
 		 * This method gets all riddles available in the database
@@ -88,7 +88,7 @@ public class GetRiddles {
 	}
 	
 	//@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@RequestMapping(method=RequestMethod.PUT, value="api//Riddles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.PUT, value="api//riddles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void updateRiddle(@RequestBody Riddle riddle) {
 		/*
 		 * This method is first gets the json structure in the RequestBody. That json structure
@@ -108,7 +108,7 @@ public class GetRiddles {
 	}
 	
 	//@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@RequestMapping(method=RequestMethod.DELETE, value="api/Riddles/{id}")
+	@RequestMapping(method=RequestMethod.DELETE, value="api/riddles/{id}")
 	public void deleteRiddle(@RequestBody Riddle riddle) {
 		/*
 		 * This method takes a json structure of a riddle and deletes that riddle if it
@@ -145,7 +145,7 @@ public class GetRiddles {
 	
 	
 	
-	@RequestMapping(method= RequestMethod.POST, value="api/Riddles")
+	@RequestMapping(method= RequestMethod.POST, value="api/riddles")
 	public void addRiddle(@RequestBody Riddle riddle) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a riddle object. it then gets added to the database

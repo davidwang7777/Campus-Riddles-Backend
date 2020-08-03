@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Column;
 
@@ -14,7 +15,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "allriddles")
+@Table(name = "riddles")
 public class Riddle {
 	
 	/*
@@ -28,14 +29,22 @@ public class Riddle {
 	private String prize;
 	private String riddlername;
 	private int levels;
+	
+	//riddler fk here
+//	@OneToMany(mappedBy="riddler")
+//	private Set<Riddle> riddles;
+//	
+//	
 	private String riddledescription;
+	private String location;
+	
 	
 	/*
 	 * CONSTRUCTORS
 	 */
 	public Riddle() {}
 	public Riddle( String title, int difficulty, String prize, String riddlerName, int levels,
-			String description) {
+			String description, String location) {
 		super();
 		
 		this.title = title;
@@ -44,6 +53,7 @@ public class Riddle {
 		this.riddlername = riddlerName;
 		this.levels = levels;
 		this.riddledescription = description;
+		this.location = location;
 	}
 
 	
@@ -119,6 +129,13 @@ public class Riddle {
 	public void setDescription(String description) {
 		this.riddledescription = description;
 	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getLocation() {
+		return this.location;
+	}
+	
 	
 	/*
 	 * OPERATIONS
