@@ -1,6 +1,4 @@
 Manifest-Version: 1.0
-Built-By: chris
-Build-Jdk: 13.0.2
 Built-By: Sergio Rodriguez
 Build-Jdk: 14.0.1
 Implementation-Title: Campus-Riddles
