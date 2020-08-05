@@ -1,45 +1,41 @@
 package com.SobreMesa.Campus.Riddles.entity;
 
+import java.time.Instant;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "hunters")
-public class Hunter {
+public class Hunter implements CRUser {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private String username;
-	private String email;
-	private String password;
-	public Hunter() {}
-	public Hunter(String username, String email, String password) {
-		super();
-		this.username = username;
-		this.email = email;
-		this.password = password;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	
+	@NotBlank(message = "username is required")
+	private String username;
+	
+	@Email
+	@NotEmpty(message = "Email is Required")
+	private String email;
+	
+	@NotBlank(message = "password is required")
+	private String password;
+	
+	private Instant created;
+	private boolean enabled;
 }
