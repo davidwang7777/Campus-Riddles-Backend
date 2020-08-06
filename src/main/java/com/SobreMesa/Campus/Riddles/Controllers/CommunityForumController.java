@@ -3,6 +3,7 @@ package com.SobreMesa.Campus.Riddles.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +36,7 @@ public class CommunityForumController {
 	}
 	
 	@RequestMapping(method= RequestMethod.GET, value="api/community-forums")
-	public List<CommunityForum> getCommunityForums(){
+	public List<CommunityForum> getAllCommunityForums(){
 		/*
 		 * This method gets all riddles available in the database
 		 * 
@@ -46,6 +47,27 @@ public class CommunityForumController {
 		 * 		returns a list of Riddle objects where each attribute in the object is taken
 		 * 		from the database
 		 */
-		return cf.getCommunityForums();
+		
+		return cf.getAllCommunityForums();
 	}
+	@RequestMapping(method= RequestMethod.GET, value="api/community-forums/{keyword}")
+	public List<CommunityForum> getCommunityForums(@PathVariable String keyword){
+		/*
+		 * This method gets all riddles available in the database
+		 * 
+		 * Args:
+		 * 		None
+		 * 
+		 * Returns:
+		 * 		returns a list of Riddle objects where each attribute in the object is taken
+		 * 		from the database
+		 */
+		
+		return cf.getCommunityForumByKeyword(keyword);
+	}
+	
+	
+	
+	
+	
 }
