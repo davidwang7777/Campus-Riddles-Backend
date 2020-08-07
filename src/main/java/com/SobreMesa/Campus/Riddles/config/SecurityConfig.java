@@ -32,7 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.cors().and()
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("/api/auth/**")
+        //.antMatchers("/api/auth/**")
+        .antMatchers(HttpMethod.POST, "/api/**")
+        .permitAll()
+        // i added below
+        .antMatchers("/api/**")
         .permitAll()
         .antMatchers(HttpMethod.GET, "/api/subreddit")
         .permitAll()

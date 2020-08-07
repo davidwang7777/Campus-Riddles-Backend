@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.SobreMesa.Campus.Riddles.entity.CRUser;
 import com.SobreMesa.Campus.Riddles.entity.Hunter;
 import com.SobreMesa.Campus.Riddles.entity.VerificationToken;
+import com.SobreMesa.Campus.Riddles.Security.JwtProvider;
 import com.SobreMesa.Campus.Riddles.dto.AuthenticationResponse;
 import com.SobreMesa.Campus.Riddles.dto.LoginRequest;
 import com.SobreMesa.Campus.Riddles.dto.RegisterRequest;
@@ -30,6 +31,7 @@ public class AuthService {
 	private final HunterRepository hunterRepo;
 	private final AuthenticationManager authenticationManager;
 	private final VerificationTokenRepository verificationTokenRepository;
+	private final JwtProvider jwtProvider;
 	
 	public void signup(RegisterRequest registerRequest) {
 		Hunter user = new Hunter();
@@ -45,7 +47,22 @@ public class AuthService {
 		
 		hunterRepo.save(user);
 		
-		String token = generateVerificationToken(user);
+		//String token = generateVerificationToken(user);
+		
+		// this token above is used to send to the email to be verified. 
+	}
+	
+	public AuthenticationResponse login(LoginRequest loginRequest) {
+		org.springframework.security.core.Authentication authenticate = 
+				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                loginRequest.getPassword()));
+	       System.out.println("step 2: " + authenticate.isAuthenticated());
+	       SecurityContextHolder.getContext().setAuthentication(authenticate);
+	       String token = jwtProvider.generateToken(authenticate);
+	       System.out.println("this is token: " + token);
+	       return new AuthenticationResponse(token, loginRequest.getUsername());
+//		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), 
+//				loginRequest.getPassword()));
 	}
 	
 	private String generateVerificationToken(Hunter hunter) {
@@ -56,10 +73,5 @@ public class AuthService {
 		
 		verificationTokenRepository.save(verificationToken);
 		return token;
-	}
-
-	public void login(LoginRequest loginRequest) {
-       authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
-    		   loginRequest.getPassword()));
 	}
 }
