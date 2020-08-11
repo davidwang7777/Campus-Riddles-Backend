@@ -7,6 +7,7 @@ import com.SobreMesa.Campus.Riddles.repo.RiddlesRepository;
 
 import org.hibernate.query.criteria.internal.expression.function.AggregationFunction.LEAST;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -45,7 +46,7 @@ public class RiddlesService {
 	}
 	
 
-	public void addRiddle(Riddle riddle) {
+	public String addRiddle(Riddle riddle) {
 		/*
 		 * This method takes a riddle object and adds it to the database. 
 		 * This riddle object should come in the RequestBody of a POST method in 
@@ -57,10 +58,18 @@ public class RiddlesService {
 		 * Returns:
 		 * 		None
 		 */
-		riddlesRepository.save(riddle);
+		try{
+			riddlesRepository.save(riddle);
+		}
+		catch(DataAccessException e){
+			return e.getMessage();
+		}
+		
+		return "success";
+		
 	}
 	
-	public void updateRiddle(Riddle riddle){
+	public String updateRiddle(Riddle riddle){
 		/*
 		 * This method updates an existing riddle, BUT DOESNT CHECK IF ITS EXISTS. 
 		 * Since the riddle object already has the id, spring boot should know that 
@@ -73,12 +82,22 @@ public class RiddlesService {
 		 * Returns:
 		 * 		None
 		 */
-		riddlesRepository.save(riddle);
+		
+		try {
+			riddlesRepository.save(riddle);
+			
+		}
+		catch(NoSuchElementException e){
+			return e.getMessage();
+		}
+		
+		return "success";
+
 	}
 
-	public void deleteRiddle(Riddle riddle) {
+	public String deleteRiddle(int riddleId) {
 		/*
-		 * This method takes in a riddle object and removes it IF IT EXISTS
+		 * This method takes in a riddle id and removes it IF IT EXISTS
 		 * 
 		 * Args:
 		 * 		a riddle object that exists
@@ -86,7 +105,14 @@ public class RiddlesService {
 		 * Returns: 
 		 * 		None
 		 */
-		riddlesRepository.delete(riddle);
+		
+		try {
+			riddlesRepository.deleteById(riddleId);
+		}catch (DataAccessException e) {
+			return e.getMessage();
+		}
+		return "success";
+		
 	}
 	
 	

@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.SobreMesa.Campus.Riddles.Services.RiddlesService;
+import com.SobreMesa.Campus.Riddles.dto.RiddlesResponse;
 import com.SobreMesa.Campus.Riddles.entity.*;
+
+import Enum.ResponseStatus;
 
 
 /*
@@ -54,26 +57,28 @@ public class GetRiddles {
 	
 	@Autowired
 	RiddlesService rs; 
-	
-	@RequestMapping("/test")
-	public void test(){
-		/*
-		 * This method gets all riddles available in the database
-		 * 
-		 * Args:
-		 * 		None
-		 * 
-		 * Returns:
-		 * 		returns a list of Riddle objects where each attribute in the object is taken
-		 * 		from the database
-		 */
-		System.out.println("hello spring");
+
+	@RequestMapping(method= RequestMethod.POST, value="api/riddles")
+	public RiddlesResponse addRiddle(@RequestBody Riddle riddle) {
+	   /* this method takes a json structure that is created in the front end that represents
+		*	a riddle object. it then gets added to the database
+		*
+		*	Args:
+		*		Riddle json data found in RequestBody of this POST call. Automatically converted to a 
+		*		Riddle object by spring boot
+		*
+		*	Returns:
+		*		RiddlesResponse
+		*/
+		if (rs.addRiddle(riddle).contains("success") ) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddle added successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddle added", null);
+		}
 	}
 	
-	//@CrossOrigin(origins = "*", allowedHeaders = "*")
-	//@CrossOrigin(origins="*")
 	@RequestMapping("api/riddles")
-	public List<Riddle> getAllRiddles(){
+	public RiddlesResponse getAllRiddles(){
 		/*
 		 * This method gets all riddles available in the database
 		 * 
@@ -81,15 +86,22 @@ public class GetRiddles {
 		 * 		None
 		 * 
 		 * Returns:
-		 * 		returns a list of Riddle objects where each attribute in the object is taken
+		 * 		returns RiddlesResponse with list of Riddle objects where each attribute in the object is taken
 		 * 		from the database
 		 */
-		return rs.getAllRiddles();
+		List<Riddle> riddles =  rs.getAllRiddles();
+	
+		
+		if (!riddles.isEmpty()) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddles loaded successfully",riddles);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
+		}
 	}
 	
 	//@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@RequestMapping(method=RequestMethod.PUT, value="api//riddles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateRiddle(@RequestBody Riddle riddle) {
+	@RequestMapping(method=RequestMethod.PUT, value="api//riddles")
+	public RiddlesResponse updateRiddle(@RequestBody Riddle riddle) {
 		/*
 		 * This method is first gets the json structure in the RequestBody. That json structure
 		 * gets automatically converted to a riddle object by spring. that riddle object 
@@ -102,16 +114,20 @@ public class GetRiddles {
 		 * Returns:
 		 * 		None
 		 */
-		System.out.println("Called the put function");
+		//System.out.println("Called the put function");
+		if (rs.updateRiddle(riddle).contains("success")) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS,"Riddle updated successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE,"Riddle not updated", null);
+		}
 		
-		rs.updateRiddle(riddle);
+		
 	}
 	
-	//@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@RequestMapping(method=RequestMethod.DELETE, value="api/riddles/{id}")
-	public void deleteRiddle(@RequestBody Riddle riddle) {
+	public RiddlesResponse deleteRiddle(@PathVariable int riddleId) {
 		/*
-		 * This method takes a json structure of a riddle and deletes that riddle if it
+		 * This method takes riddle id and deletes that riddle if it
 		 * exists. 
 		 * TODO: we can probably change the parameters of this so that it only takes in the 
 		 * riddle ID so spring locates that specific riddle and deletes it instead of passing
@@ -123,9 +139,13 @@ public class GetRiddles {
 		 * Returns:
 		 * 		None
 		 */
-		rs.deleteRiddle(riddle);
+		if (rs.deleteRiddle(riddleId).contains("success")) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddle deleted successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddle deleted" , null);
+		}
 	}
-	
+//	
 	
 //	@PostMapping(value = "api/Riddles", consumes = MediaType.APPLICATION_JSON_VALUE)
 //	public void addRiddle(@RequestBody Riddle riddle){
@@ -144,21 +164,7 @@ public class GetRiddles {
 	
 	
 	
-	
-	@RequestMapping(method= RequestMethod.POST, value="api/riddles")
-	public void addRiddle(@RequestBody Riddle riddle) {
-	   /* this method takes a json structure that is created in the front end that represents
-		*	a riddle object. it then gets added to the database
-		*
-		*	Args:
-		*		Riddle json data found in RequestBody of this POST call. Automatically converted to a 
-		*		Riddle object by spring boot
-		*
-		*	Returns:
-		*		None
-		*/
-		
-		rs.addRiddle(riddle);
-	}
+//	
+
 	
 }
