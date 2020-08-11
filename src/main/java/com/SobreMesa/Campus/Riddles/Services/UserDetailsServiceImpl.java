@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.SobreMesa.Campus.Riddles.Security.HunterUserDetails;
 import com.SobreMesa.Campus.Riddles.entity.Hunter;
 import com.SobreMesa.Campus.Riddles.repo.HunterRepository;
 
@@ -28,44 +29,24 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("in user details" + username);
-		 //Optional<Hunter> userOptional = hunterRepo.findByUsername(username);
-		Hunter userOptional = hunterRepo.findByUsername(username);
-		 System.out.println("thisis error");
-	        //Hunter user = userOptional
-	          //      .orElseThrow(() -> new UsernameNotFoundException("No user " +
-	            //            "Found with username : " + username));
-		 Hunter user;
-		 	if (userOptional == null) {
-		 		System.out.println("is null");
-		 		//user = userOptional
-		          //      .orElseThrow(() -> new UsernameNotFoundException("No user " +
-		            //            "Found with username : " + username));
-		 	}
-		 	else
-		 	{
-		 		System.out.println("is not null");
-		 		//user = userOptional
-		          //      .orElseThrow(() -> new UsernameNotFoundException("No user " +
-		            //            "Found with username : " + username));
-		 	}
-		 	
-	        //System.out.println("this is the user we found: " + userOptional.isPresent());
-	        
-//	        return new org.springframework.security
-//	                .core.userdetails.User(user.getUsername(), user.getPassword(),
-//	                user.isEnabled(), true, true,
-//	                true, getAuthorities("USER"));
+		System.out.println("check 2: " + username);
+		Optional<Hunter> userOptional = hunterRepo.findByUsername(username);
+
+		System.out.println("check 3, is value present?" + userOptional.isPresent());
+		
+		Hunter hunter = userOptional
+			.orElseThrow(() -> new UsernameNotFoundException("No user " +
+	                        "Found with username : " + username));
 	        
 	        return new org.springframework.security
-	                .core.userdetails.User(userOptional.getUsername(), userOptional.getPassword(),
-	                userOptional.isEnabled(), true, true,
+	                .core.userdetails.User(hunter.getUsername(), hunter.getPassword(),
+	                hunter.isEnabled(), true, true,
 	                true, getAuthorities("USER"));
 	}
 	
 	  private Collection<? extends GrantedAuthority> getAuthorities(String role) {
 	        //return Collections.singletonList(new SimpleGrantedAuthority(role));
-		  return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+		  return Arrays.asList(new SimpleGrantedAuthority(role));
 	    }
 
 }

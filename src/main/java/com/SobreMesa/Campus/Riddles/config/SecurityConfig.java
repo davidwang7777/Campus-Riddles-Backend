@@ -2,6 +2,7 @@ package com.SobreMesa.Campus.Riddles.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -13,38 +14,42 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.SobreMesa.Campus.Riddles.Services.UserDetailsServiceImpl;
+import com.SobreMesa.Campus.Riddles.repo.HunterRepository;
+
 import lombok.AllArgsConstructor;
 
+@EnableJpaRepositories(basePackageClasses = HunterRepository.class)
 @EnableWebSecurity
-@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final UserDetailsService userDetailsService;
-	
-	@Bean(BeanIds.AUTHENTICATION_MANAGER)
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-	
-	@Override
-	public void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.cors().and()
+    private final UserDetailsServiceImpl userDetailsService;
+
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService){
+      this.userDetailsService = userDetailsService;
+    }   
+
+    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    public void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity 
+        .cors().and()
         .csrf().disable()
         .authorizeRequests()
-        //.antMatchers("/api/auth/**")
         .antMatchers(HttpMethod.POST, "/api/**")
         .permitAll()
-        // i added below
         .antMatchers("/api/**")
-        .permitAll()
-        .antMatchers(HttpMethod.GET, "/api/subreddit")
         .permitAll()
         .antMatchers(HttpMethod.GET, "/api/posts/")
         .permitAll()
         .antMatchers(HttpMethod.GET, "/api/posts/**")
         .permitAll()
-        // change the bottom matchers to match our folder
+        // change the bottom matchers to my site's urls
         .antMatchers("/v2/api-docs",
                 "/configuration/ui",
                 "/swagger-resources/**",
@@ -54,20 +59,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .anyRequest()
         .authenticated();
-	}
-	
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder authenticationManager) throws Exception {
-		authenticationManager.userDetailsService(userDetailsService)
-		.passwordEncoder(passwordEncoder());
-	}
-	
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		/*
-		 * passwordEncoder is part of spring security. it is used to encrypt passwords with a 
-		 * BCrypt hashing algorithm
-		 */
-		return new BCryptPasswordEncoder();
-	}
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder authenticationManager) throws Exception 
+   {
+        authenticationManager.userDetailsService(userDetailsService)
+        .passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        /*
+         * passwordEncoder is part of spring security. it is used to encrypt passwords with a 
+         * BCrypt hashing algorithm
+         */
+        return new BCryptPasswordEncoder();
+    }
 }

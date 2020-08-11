@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="riddlers")
-public class Riddler implements CRUser {
+public class Riddler {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;

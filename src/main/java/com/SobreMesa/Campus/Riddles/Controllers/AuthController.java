@@ -15,7 +15,7 @@ import com.SobreMesa.Campus.Riddles.dto.RegisterRequest;
 
 @RestController
 @RequestMapping("api/auth")
-public class Auth {
+public class AuthController {
 	
 	@Autowired
 	private AuthService authService;
