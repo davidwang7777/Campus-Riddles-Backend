@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.SobreMesa.Campus.Riddles.Services.RiddlesService;
+import com.SobreMesa.Campus.Riddles.dto.CommunityForumResponse;
 import com.SobreMesa.Campus.Riddles.dto.RiddlesResponse;
 import com.SobreMesa.Campus.Riddles.entity.*;
 
@@ -101,6 +102,28 @@ public class GetRiddles {
 		}else {
 			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
 		}
+	}
+	@RequestMapping(method= RequestMethod.GET, value="api/riddles/{id}")
+	public RiddlesResponse getRiddle(@PathVariable int id){
+		/*
+		 * This method gets all community forums available in the database
+		 * 
+		 * Args:
+		 * 		None
+		 * 
+		 * Returns:
+		 * 		returns a list of CommunityForum objects where each attribute in the object is taken
+		 * 		from the database
+		 */
+		
+		List<Riddle> riddles = rs.getRiddle(id);
+		
+		if (!riddles.isEmpty()) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddle loaded successfully", riddles);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddle found", riddles);
+		}
+		
 	}
 	
 	//@CrossOrigin(origins = "*", allowedHeaders = "*")

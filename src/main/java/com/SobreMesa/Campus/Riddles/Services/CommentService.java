@@ -75,6 +75,7 @@ public class CommentService {
 		comments = commentRepository.findAllByForum_id(forum_id);
 		return comments;
 	}
+
 	
 	
 //	public List<Comment> getAllComments(){

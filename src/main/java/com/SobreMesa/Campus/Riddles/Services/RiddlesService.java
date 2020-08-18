@@ -2,6 +2,7 @@ package com.SobreMesa.Campus.Riddles.Services;
 
 
 import com.SobreMesa.Campus.Riddles.Services.*;
+import com.SobreMesa.Campus.Riddles.entity.Comment;
 import com.SobreMesa.Campus.Riddles.entity.Riddle;
 import com.SobreMesa.Campus.Riddles.entity.Riddler;
 import com.SobreMesa.Campus.Riddles.repo.RiddlesRepository;
@@ -48,7 +49,14 @@ public class RiddlesService {
 	
 		return riddles;
 	}
-	
+	public  List<Riddle> getRiddle(int riddleId) {
+		List<Riddle> riddles = new ArrayList<>();
+		Optional<Riddle> c =  riddlesRepository.findById(riddleId);
+		
+		//returns found forum or null
+		riddles.add( c.orElse(null));
+		 return riddles;
+	}
 
 	public String addRiddle(Riddle riddle) {
 		
