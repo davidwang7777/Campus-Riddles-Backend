@@ -3,11 +3,14 @@ package com.SobreMesa.Campus.Riddles.Services;
 
 import com.SobreMesa.Campus.Riddles.Services.*;
 import com.SobreMesa.Campus.Riddles.entity.Riddle;
+import com.SobreMesa.Campus.Riddles.entity.Riddler;
 import com.SobreMesa.Campus.Riddles.repo.RiddlesRepository;
+import com.SobreMesa.Campus.Riddles.repo.RiddlerRepository;
 
 import org.hibernate.query.criteria.internal.expression.function.AggregationFunction.LEAST;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -16,7 +19,8 @@ public class RiddlesService {
 	
 	@Autowired
 	RiddlesRepository riddlesRepository;
-	
+	@Autowired
+	private RiddlerRepository riddlerRepository;
 	
 	
 	/*
@@ -47,6 +51,7 @@ public class RiddlesService {
 	
 
 	public String addRiddle(Riddle riddle) {
+		
 		/*
 		 * This method takes a riddle object and adds it to the database. 
 		 * This riddle object should come in the RequestBody of a POST method in 
@@ -57,16 +62,34 @@ public class RiddlesService {
 		 * 
 		 * Returns:
 		 * 		None
+		 * 
+		 * 
+		 * 
 		 */
-		try{
-			riddlesRepository.save(riddle);
-		}
-		catch(DataAccessException e){
-			return e.getMessage();
-		}
 		
-		return "success";
 		
+		
+		Optional<Riddler> riddlerOptional = riddlerRepository.findById(riddle.getRiddler_id());
+		
+		
+		if (riddlerOptional.isPresent())
+		{
+			Riddler riddler = riddlerOptional.get();
+			try {
+				riddle.setRiddlername(riddler.getUsername());	
+				riddler.getRiddles().add(riddle);
+				riddlerRepository.save(riddler);
+			
+			}catch (DataIntegrityViolationException e){
+				return "Riddle with that name already exists, chose different name,";
+			}
+			
+			return "success";
+			
+		}else {
+		
+			return "No riddler found for that id.";
+		}
 	}
 	
 	public String updateRiddle(Riddle riddle){

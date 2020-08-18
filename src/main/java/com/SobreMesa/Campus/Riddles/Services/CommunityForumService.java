@@ -8,25 +8,49 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.SobreMesa.Campus.Riddles.entity.CommunityForum;
+import com.SobreMesa.Campus.Riddles.entity.Hunter;
+import com.SobreMesa.Campus.Riddles.entity.Riddler;
 import com.SobreMesa.Campus.Riddles.repo.CommunityForumRepository;
+import com.SobreMesa.Campus.Riddles.repo.HunterRepository;
 @Service
 public class CommunityForumService {
 	
 	@Autowired
 	CommunityForumRepository communityForumRepository;
+	
+	@Autowired 
+	HunterRepository hunterRepository;
 
 	public String addCommunityForum(CommunityForum communityForum) {
-		try{
-			communityForumRepository.save(communityForum);
-		}
-		catch(DataAccessException e){
-			return e.getMessage();
-		}
 		
-		return "success";
+		
+		Optional<Hunter> hunterOptional = hunterRepository.findById(communityForum.getHunter_id());
+		
+		
+		if (hunterOptional.isPresent())
+		{
+		    //doSomethingWithUser(user.get());
+			Hunter hunter = hunterOptional.get();
+			try {
+				communityForum.setHunter_username(hunter.getUsername());
+				hunter.getCommunityForums().add(communityForum);
+				hunterRepository.save(hunter);
+				
+				
+			}catch (DataIntegrityViolationException e){
+				return "Forum with that name already exists, chose different name,";
+			}
+			
+			return "success";
+			
+		}else {
+		
+			return "No hunter found for that id.";
+		}
 	}
 	
 	public List<CommunityForum> getAllCommunityForums(){

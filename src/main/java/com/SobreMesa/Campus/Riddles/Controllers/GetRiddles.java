@@ -58,7 +58,7 @@ public class GetRiddles {
 	@Autowired
 	RiddlesService rs; 
 
-	@RequestMapping(method= RequestMethod.POST, value="api/riddles")
+	@RequestMapping(method= RequestMethod.POST, value="api/riddles/submit")
 	public RiddlesResponse addRiddle(@RequestBody Riddle riddle) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a riddle object. it then gets added to the database
@@ -69,11 +69,15 @@ public class GetRiddles {
 		*
 		*	Returns:
 		*		RiddlesResponse
+		*
 		*/
-		if (rs.addRiddle(riddle).contains("success") ) {
+		
+		String result = rs.addRiddle(riddle);
+		
+		if (result.contains("success") ) {
 			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddle added successfully", null);
 		}else {
-			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddle added", null);
+			return new RiddlesResponse(ResponseStatus.FAILURE, result, null);
 		}
 	}
 	

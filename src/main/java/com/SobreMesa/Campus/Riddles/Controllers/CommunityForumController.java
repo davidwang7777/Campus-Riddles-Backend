@@ -23,7 +23,7 @@ public class CommunityForumController {
 	@Autowired
 	CommunityForumService cf; 
 	
-	@RequestMapping(method= RequestMethod.POST, value="api/community-forums")
+	@RequestMapping(method= RequestMethod.POST, value="api/community-forums/submit")
 	public CommunityForumResponse addCommunityForum(@RequestBody CommunityForum communityForum) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a CommunityForum object. it then gets added to the database
@@ -35,10 +35,14 @@ public class CommunityForumController {
 		*	Returns:
 		*		None
 		*/
-		if (cf.addCommunityForum(communityForum).contains("success")) {
+		
+		//System.out.println(communityForum.getContent());
+		String result = cf.addCommunityForum(communityForum);
+		
+		if (result.contains("success")) {
 			return new CommunityForumResponse(ResponseStatus.SUCCESS,"Community Forum added",null);
 		}else {
-			return new CommunityForumResponse(ResponseStatus.FAILURE,"No Community Forum added",null);
+			return new CommunityForumResponse(ResponseStatus.FAILURE,result,null);
 		}
 		
 	}
