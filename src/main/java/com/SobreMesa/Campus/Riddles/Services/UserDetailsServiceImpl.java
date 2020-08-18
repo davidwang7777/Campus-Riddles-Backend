@@ -29,15 +29,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("check 2: " + username);
-		Optional<Hunter> userOptional = hunterRepo.findByUsername(username);
 
-		System.out.println("check 3, is value present?" + userOptional.isPresent());
+		Optional<Hunter> userOptional = hunterRepo.findByUsername(username);
 		
 		Hunter hunter = userOptional
 			.orElseThrow(() -> new UsernameNotFoundException("No user " +
 	                        "Found with username : " + username));
 	        
+		
+		// TODO: change the permission on each user so it doesn't stay as "USER"
 	        return new org.springframework.security
 	                .core.userdetails.User(hunter.getUsername(), hunter.getPassword(),
 	                hunter.isEnabled(), true, true,
@@ -45,7 +45,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 	
 	  private Collection<? extends GrantedAuthority> getAuthorities(String role) {
-	        //return Collections.singletonList(new SimpleGrantedAuthority(role));
 		  return Arrays.asList(new SimpleGrantedAuthority(role));
 	    }
 

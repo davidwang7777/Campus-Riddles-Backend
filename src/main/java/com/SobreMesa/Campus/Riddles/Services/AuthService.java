@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.SobreMesa.Campus.Riddles.entity.Hunter;
 import com.SobreMesa.Campus.Riddles.entity.VerificationToken;
-import com.SobreMesa.Campus.Riddles.Security.JwtProvider;
+import com.SobreMesa.Campus.Riddles.Security.JwtUtil;
 import com.SobreMesa.Campus.Riddles.dto.AuthenticationResponse;
 import com.SobreMesa.Campus.Riddles.dto.LoginRequest;
 import com.SobreMesa.Campus.Riddles.dto.RegisterRequest;
@@ -30,7 +30,7 @@ public class AuthService {
 	private final HunterRepository hunterRepo;
 	private final AuthenticationManager authenticationManager;
 	private final VerificationTokenRepository verificationTokenRepository;
-	private final JwtProvider jwtProvider;
+	private final JwtUtil jwtUtil;
 	
 	public void signup(RegisterRequest registerRequest) {
 		/*
@@ -41,6 +41,7 @@ public class AuthService {
 		user.setEmail(registerRequest.getEmail());
 		user.setPassword(passwordEncoder.encode( registerRequest.getPassword() ));
 		user.setCreated(Instant.now());
+
 		
 		
 		/*
@@ -59,7 +60,6 @@ public class AuthService {
 	public AuthenticationResponse login(LoginRequest loginRequest) {
 		
 		org.springframework.security.core.Authentication authenticate = null;
-		
 		try {
 		authenticate = 
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
@@ -68,15 +68,19 @@ public class AuthService {
 			e.printStackTrace();
 		}
 	       System.out.println("step 2: " + authenticate.isAuthenticated());
-	       SecurityContextHolder.getContext().setAuthentication(authenticate);
-	       String token = "8888";//jwtProvider.generateToken(authenticate);
-	       System.out.println("this is token: " + token);
+	       //SecurityContextHolder.getContext().setAuthentication(authenticate);
+	       String token = jwtUtil.generateToken(loginRequest.getUsername());
 	       return new AuthenticationResponse(token, loginRequest.getUsername());
-//		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), 
-//				loginRequest.getPassword()));
 	}
 	
 	private String generateVerificationToken(Hunter hunter) {
+		/*
+		 * this method is used to generate the token that gets sent out to the users 
+		 * email address to verify their account exists
+		 * 
+		 * soon to be implemented
+		 */
+		
 		String token = UUID.randomUUID().toString();
 		VerificationToken verificationToken = new VerificationToken();
 		verificationToken.setToken(token);
