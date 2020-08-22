@@ -29,11 +29,3 @@ public class CampusRiddlesApplication {
 	
 }
 
-
-/*
-<dependency>
-<groupId>com.github.java-json-tools</groupId>
-<artifactId>json-patch</artifactId>
-<version>1.13</version>
-</dependency>
-*/

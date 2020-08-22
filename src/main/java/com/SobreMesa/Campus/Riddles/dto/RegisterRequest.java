@@ -1,4 +1,4 @@
-package com.SobreMesa.Campus.Riddles.entity;
+package com.SobreMesa.Campus.Riddles.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
