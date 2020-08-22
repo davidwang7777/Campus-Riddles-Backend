@@ -15,10 +15,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.SobreMesa.Campus.Riddles.Services.RiddlesService;
+import com.SobreMesa.Campus.Riddles.dto.CommunityForumResponse;
+import com.SobreMesa.Campus.Riddles.dto.RiddlesResponse;
 import com.SobreMesa.Campus.Riddles.entity.*;
+
+import Enum.ResponseStatus;
 
 
 /*
@@ -55,8 +60,66 @@ public class GetRiddles {
 	@Autowired
 	RiddlesService rs; 
 	
-	@RequestMapping("/test")
-	public void test(){
+	@RequestMapping(method= RequestMethod.POST, value="api/riddles")
+	public RiddlesResponse subscribeToRiddle(@RequestParam("riddle_id") int riddle_id, @RequestParam("hunter_id") int hunter_id) {
+	   /* this method takes a json structure that is created in the front end that represents
+		*	a riddle object. it then gets added to the database
+		*
+		*	Args:
+		*		Riddle json data found in RequestBody of this POST call. Automatically converted to a 
+		*		Riddle object by spring boot
+		*
+		*	Returns:
+		*		RiddlesResponse
+		*
+		*/
+		
+		//System.out.println("IN SUBSCRIBE FUNCTION");
+		
+		String result = rs.subscribeToRiddle(hunter_id, riddle_id);
+		
+		if (result.contains("success") ) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddle added successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, result, null);
+		}
+	}
+	
+	//Level level, int riddle_id
+	
+	@RequestMapping(method= RequestMethod.POST, value="api/riddles/levels")
+	public RiddlesResponse addRiddleLevel(@RequestBody Level level , @RequestParam("riddle_id") int riddle_id) {
+	   /* this method takes a json structure that is created in the front end that represents
+		*	a riddle object. it then gets added to the database
+		*
+		*	Args:
+		*		Riddle json data found in RequestBody of this POST call. Automatically converted to a 
+		*		Riddle object by spring boot
+		*
+		*	Returns:
+		*		RiddlesResponse
+		*
+		*/
+		
+		System.out.println("IN LEVELS FUNCTION");
+		
+		System.out.println(level.getLevelnumber());
+		
+		
+		String result = rs.postRiddleLevel(level, riddle_id);
+		
+		if (result.contains("success") ) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Level added successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, result, null);
+		}
+	}
+	
+	
+	
+	
+	@RequestMapping("api/riddles/subscribe/{hunter_id}")
+	public RiddlesResponse getAllSubscribedRiddles(@PathVariable int hunter_id){
 		/*
 		 * This method gets all riddles available in the database
 		 * 
@@ -64,16 +127,44 @@ public class GetRiddles {
 		 * 		None
 		 * 
 		 * Returns:
-		 * 		returns a list of Riddle objects where each attribute in the object is taken
+		 * 		returns RiddlesResponse with list of Riddle objects where each attribute in the object is taken
 		 * 		from the database
 		 */
-		System.out.println("hello spring");
+		List<Riddle> riddles =  rs.getAllSubscribedRiddles(hunter_id);
+	
+		
+		if (!riddles.isEmpty()) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddles loaded successfully",riddles);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
+		}
+	}
+
+	@RequestMapping(method= RequestMethod.POST, value="api/riddles/submit")
+	public RiddlesResponse addRiddle(@RequestBody Riddle riddle) {
+	   /* this method takes a json structure that is created in the front end that represents
+		*	a riddle object. it then gets added to the database
+		*
+		*	Args:
+		*		Riddle json data found in RequestBody of this POST call. Automatically converted to a 
+		*		Riddle object by spring boot
+		*
+		*	Returns:
+		*		RiddlesResponse
+		*
+		*/
+		
+		String result = rs.addRiddle(riddle);
+		
+		if (result.contains("success") ) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddle added successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, result, null);
+		}
 	}
 	
-	//@CrossOrigin(origins = "*", allowedHeaders = "*")
-	//@CrossOrigin(origins="*")
 	@RequestMapping("api/riddles")
-	public List<Riddle> getAllRiddles(){
+	public RiddlesResponse getAllRiddles(){
 		/*
 		 * This method gets all riddles available in the database
 		 * 
@@ -81,15 +172,45 @@ public class GetRiddles {
 		 * 		None
 		 * 
 		 * Returns:
-		 * 		returns a list of Riddle objects where each attribute in the object is taken
+		 * 		returns RiddlesResponse with list of Riddle objects where each attribute in the object is taken
 		 * 		from the database
 		 */
-		return rs.getAllRiddles();
+		List<Riddle> riddles =  rs.getAllRiddles();
+	
+		
+		if (!riddles.isEmpty()) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddles loaded successfully",riddles);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
+		}
+	}
+	
+	@RequestMapping(method= RequestMethod.GET, value="api/riddles/{id}")
+	public RiddlesResponse getRiddle(@PathVariable int id){
+		/*
+		 * This method gets all community forums available in the database
+		 * 
+		 * Args:
+		 * 		None
+		 * 
+		 * Returns:
+		 * 		returns a list of CommunityForum objects where each attribute in the object is taken
+		 * 		from the database
+		 */
+		
+		List<Riddle> riddles = rs.getRiddle(id);
+		
+		if (!riddles.isEmpty()) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddle loaded successfully", riddles);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddle found", riddles);
+		}
+		
 	}
 	
 	//@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@RequestMapping(method=RequestMethod.PUT, value="api//riddles/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateRiddle(@RequestBody Riddle riddle) {
+	@RequestMapping(method=RequestMethod.PUT, value="api//riddles")
+	public RiddlesResponse updateRiddle(@RequestBody Riddle riddle) {
 		/*
 		 * This method is first gets the json structure in the RequestBody. That json structure
 		 * gets automatically converted to a riddle object by spring. that riddle object 
@@ -102,16 +223,20 @@ public class GetRiddles {
 		 * Returns:
 		 * 		None
 		 */
-		System.out.println("Called the put function");
+		//System.out.println("Called the put function");
+		if (rs.updateRiddle(riddle).contains("success")) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS,"Riddle updated successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE,"Riddle not updated", null);
+		}
 		
-		rs.updateRiddle(riddle);
+		
 	}
 	
-	//@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@RequestMapping(method=RequestMethod.DELETE, value="api/riddles/{id}")
-	public void deleteRiddle(@RequestBody Riddle riddle) {
+	public RiddlesResponse deleteRiddle(@PathVariable int riddleId) {
 		/*
-		 * This method takes a json structure of a riddle and deletes that riddle if it
+		 * This method takes riddle id and deletes that riddle if it
 		 * exists. 
 		 * TODO: we can probably change the parameters of this so that it only takes in the 
 		 * riddle ID so spring locates that specific riddle and deletes it instead of passing
@@ -123,9 +248,13 @@ public class GetRiddles {
 		 * Returns:
 		 * 		None
 		 */
-		rs.deleteRiddle(riddle);
+		if (rs.deleteRiddle(riddleId).contains("success")) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddle deleted successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddle deleted" , null);
+		}
 	}
-	
+//	
 	
 //	@PostMapping(value = "api/Riddles", consumes = MediaType.APPLICATION_JSON_VALUE)
 //	public void addRiddle(@RequestBody Riddle riddle){
@@ -144,21 +273,7 @@ public class GetRiddles {
 	
 	
 	
-	
-	@RequestMapping(method= RequestMethod.POST, value="api/riddles")
-	public void addRiddle(@RequestBody Riddle riddle) {
-	   /* this method takes a json structure that is created in the front end that represents
-		*	a riddle object. it then gets added to the database
-		*
-		*	Args:
-		*		Riddle json data found in RequestBody of this POST call. Automatically converted to a 
-		*		Riddle object by spring boot
-		*
-		*	Returns:
-		*		None
-		*/
-		
-		rs.addRiddle(riddle);
-	}
+//	
+
 	
 }
