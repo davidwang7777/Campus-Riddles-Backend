@@ -1,5 +1,6 @@
 package com.SobreMesa.Campus.Riddles.entity;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class CommunityForum {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	private Instant created_at;
 	private String title;
 	private String content;
 	private String media;
@@ -27,8 +29,20 @@ public class CommunityForum {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="forum_id", referencedColumnName ="id")
 	private List<Comment> comments = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="fk_vote_forum", referencedColumnName ="id")
+	private List<Vote> votes = new ArrayList<>();
 	
+	private int votecount;
 	
+	public CommunityForum(int id, String title, String content, String media, int votecount) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.media = media;
+		this.votecount = votecount;
+	}
 	public CommunityForum() {}
 	public CommunityForum(String title, String content, String media, String hunter_username) {
 		super();
@@ -81,6 +95,19 @@ public class CommunityForum {
 	public void setHunter_id(int hunter_id) {
 		this.hunter_id = hunter_id;
 	}
+	public List<Vote> getVotes() {
+		return votes;
+	}
+	public void setVotes(List<Vote> votes) {
+		this.votes = votes;
+	}
+	public int getVotecount() {
+		return votecount;
+	}
+	public void setVotecount(int votecount) {
+		this.votecount = votecount;
+	}
+	
 
 	
 }

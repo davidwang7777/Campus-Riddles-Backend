@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.SobreMesa.Campus.Riddles.Services.RiddlesService;
@@ -58,6 +59,86 @@ public class GetRiddles {
 	
 	@Autowired
 	RiddlesService rs; 
+	
+	@RequestMapping(method= RequestMethod.POST, value="api/riddles")
+	public RiddlesResponse subscribeToRiddle(@RequestParam("riddle_id") int riddle_id, @RequestParam("hunter_id") int hunter_id) {
+	   /* this method takes a json structure that is created in the front end that represents
+		*	a riddle object. it then gets added to the database
+		*
+		*	Args:
+		*		Riddle json data found in RequestBody of this POST call. Automatically converted to a 
+		*		Riddle object by spring boot
+		*
+		*	Returns:
+		*		RiddlesResponse
+		*
+		*/
+		
+		System.out.println("IN SUBSCRIBE FUNCTION");
+		
+		String result = rs.subscribeToRiddle(hunter_id, riddle_id);
+		
+		if (result.contains("success") ) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddle added successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, result, null);
+		}
+	}
+	
+	//Level level, int riddle_id
+	
+	@RequestMapping(method= RequestMethod.POST, value="api/riddles/levels")
+	public RiddlesResponse addRiddleLevel(@RequestBody Level level , @RequestParam("riddle_id") int riddle_id) {
+	   /* this method takes a json structure that is created in the front end that represents
+		*	a riddle object. it then gets added to the database
+		*
+		*	Args:
+		*		Riddle json data found in RequestBody of this POST call. Automatically converted to a 
+		*		Riddle object by spring boot
+		*
+		*	Returns:
+		*		RiddlesResponse
+		*
+		*/
+		
+		System.out.println("IN LEVELS FUNCTION");
+		
+		System.out.println(level.getLevelnumber());
+		
+		
+		String result = rs.postRiddleLevel(level, riddle_id);
+		
+		if (result.contains("success") ) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Level added successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, result, null);
+		}
+	}
+	
+	
+	
+	
+	@RequestMapping("api/riddles/subscribe/{hunter_id}")
+	public RiddlesResponse getAllSubscribedRiddles(@PathVariable int hunter_id){
+		/*
+		 * This method gets all riddles available in the database
+		 * 
+		 * Args:
+		 * 		None
+		 * 
+		 * Returns:
+		 * 		returns RiddlesResponse with list of Riddle objects where each attribute in the object is taken
+		 * 		from the database
+		 */
+		List<Riddle> riddles =  rs.getAllSubscribedRiddles(hunter_id);
+	
+		
+		if (!riddles.isEmpty()) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddles loaded successfully",riddles);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
+		}
+	}
 
 	@RequestMapping(method= RequestMethod.POST, value="api/riddles/submit")
 	public RiddlesResponse addRiddle(@RequestBody Riddle riddle) {
@@ -103,6 +184,7 @@ public class GetRiddles {
 			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
 		}
 	}
+	
 	@RequestMapping(method= RequestMethod.GET, value="api/riddles/{id}")
 	public RiddlesResponse getRiddle(@PathVariable int id){
 		/*

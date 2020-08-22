@@ -1,5 +1,6 @@
 package com.SobreMesa.Campus.Riddles.Controllers;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,10 @@ public class CommunityForumController {
 		//System.out.println(communityForum.getContent());
 		String result = cf.addCommunityForum(communityForum);
 		
+		System.out.println("POSTED at:"+ java.time.Instant.now());
+		
+		
+		
 		if (result.contains("success")) {
 			return new CommunityForumResponse(ResponseStatus.SUCCESS,"Community Forum added",null);
 		}else {
@@ -60,6 +65,8 @@ public class CommunityForumController {
 		 * 		from the database
 		 */
 		List<CommunityForum> communityForums = cf.getAllCommunityForums();
+		
+		System.out.println(communityForums.get(1).getComments());
 		
 		if (!communityForums.isEmpty()) {
 			return new CommunityForumResponse(ResponseStatus.SUCCESS, "Community Forums loaded successfully", communityForums);

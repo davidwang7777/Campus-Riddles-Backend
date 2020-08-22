@@ -1,5 +1,6 @@
 package com.SobreMesa.Campus.Riddles.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,25 +14,49 @@ public class Level {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	//maybe wrong? -> database name is: level_number
-	private int levelnumber;
-	private int riddle;
-	public Level() {}
-	public Level(int levelnumber, int riddle) {
-		super();
-		this.levelnumber = levelnumber;
-		this.riddle = riddle;
-	}
+	private int level_number;
+
+	private String question;
+	private String answer;
+	@Column(insertable = false, nullable = true)
+	private int fk_riddles_levels;
 	
+	public Level() {}
+	public Level(int level_number, String question, String answer) {
+		super();
+		this.level_number = level_number;
+		this.question = question;
+		this.answer = answer;
+	}
 	public int getLevelnumber() {
-		return levelnumber;
+		return level_number;
 	}
 	public void setLevelnumber(int levelnumber) {
-		this.levelnumber = levelnumber;
+		this.level_number = levelnumber;
 	}
-	public int getRiddle() {
-		return riddle;
+	public int getId() {
+		return id;
 	}
-	public void setRiddle(int riddle) {
-		this.riddle = riddle;
+	public void setId(int id) {
+		this.id = id;
 	}
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+	public String getAnswer() {
+		return answer;
+	}
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+	public int getFk_riddles_levels() {
+		return fk_riddles_levels;
+	}
+	public void setFk_riddles_levels(int fk_riddles_levels) {
+		this.fk_riddles_levels = fk_riddles_levels;
+	}
+	
 }

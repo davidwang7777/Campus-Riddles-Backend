@@ -9,6 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 import lombok.Getter;
@@ -29,10 +34,14 @@ public class Riddle {
 	private int difficulty;
 	private String prize;
 	private String riddlername;
-	private int levels;
 	private String riddledescription;
 	private String location;
 	private int riddler_id;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn( name = "fk_riddles_levels", referencedColumnName= "id")
+	private List<Level> levels = new ArrayList<>();
+	
+	
 	public Riddle(int id, String title, int difficulty, String prize, String riddlername, int levels,
 			String riddledescription, String location, int riddler_id) {
 		super();
@@ -41,7 +50,6 @@ public class Riddle {
 		this.difficulty = difficulty;
 		this.prize = prize;
 		this.riddlername = riddlername;
-		this.levels = levels;
 		this.riddledescription = riddledescription;
 		this.location = location;
 		this.riddler_id = riddler_id;
@@ -61,7 +69,6 @@ public class Riddle {
 		this.difficulty = difficulty;
 		this.prize = prize;
 		this.riddlername = riddlername;
-		this.levels = levels;
 		this.riddledescription = riddledescription;
 		//this.riddler = riddler;
 		this.location = location;
@@ -96,12 +103,12 @@ public class Riddle {
 	public void setRiddlername(String riddlername) {
 		this.riddlername = riddlername;
 	}
-	public int getLevels() {
-		return levels;
-	}
-	public void setLevels(int levels) {
-		this.levels = levels;
-	}
+//	public int getLevels() {
+//		return levels;
+//	}
+//	public void setLevels(int levels) {
+//		this.levels = levels;
+//	}
 	public String getRiddledescription() {
 		return riddledescription;
 	}
@@ -144,6 +151,12 @@ public class Riddle {
 	}
 	public void setRiddler_id(int riddler_id) {
 		this.riddler_id = riddler_id;
+	}
+	public List<Level> getLevels() {
+		return levels;
+	}
+	public void setLevels(List<Level> levels) {
+		this.levels = levels;
 	}
 	
 	
