@@ -25,6 +25,8 @@ import lombok.AllArgsConstructor;
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	private final HunterRepository hunterRepo;
+	
+	
 
 	@Override
 	@Transactional
