@@ -74,7 +74,7 @@ public class GetRiddles {
 		*
 		*/
 		
-		System.out.println("IN SUBSCRIBE FUNCTION");
+		//System.out.println("IN SUBSCRIBE FUNCTION");
 		
 		String result = rs.subscribeToRiddle(hunter_id, riddle_id);
 		
