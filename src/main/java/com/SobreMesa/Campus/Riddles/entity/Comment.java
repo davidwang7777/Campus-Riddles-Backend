@@ -1,5 +1,7 @@
 package com.SobreMesa.Campus.Riddles.entity;
 
+import java.time.Instant;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +18,7 @@ public class Comment {
 	private String text;
 	private String hunter_username;
 	private int forum_id;
+	private Instant created;
 	
 	
 	public Comment() {}
@@ -44,6 +47,14 @@ public class Comment {
 
 	public void setForum_id(int forum_id) {
 		this.forum_id = forum_id;
+	}
+
+	public Instant getCreated() {
+		return created;
+	}
+
+	public void setCreated(Instant created) {
+		this.created = created;
 	}
 
 	

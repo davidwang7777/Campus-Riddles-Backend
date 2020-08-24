@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.SobreMesa.Campus.Riddles.entity.CommunityForum;
 import com.SobreMesa.Campus.Riddles.entity.Hunter;
-import com.SobreMesa.Campus.Riddles.entity.Riddler;
 import com.SobreMesa.Campus.Riddles.repo.CommunityForumRepository;
 import com.SobreMesa.Campus.Riddles.repo.HunterRepository;
 @Service
@@ -37,6 +36,7 @@ public class CommunityForumService {
 			Hunter hunter = hunterOptional.get();
 			try {
 				communityForum.setHunter_username(hunter.getUsername());
+				communityForum.setCreated(java.time.Instant.now());
 				hunter.getCommunityForums().add(communityForum);
 				hunterRepository.save(hunter);
 				

@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,9 @@ public class Riddle {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn( name = "fk_riddles_levels", referencedColumnName= "id")
 	private List<Level> levels = new ArrayList<>();
+	private boolean completed;
+	private Instant created;
+	
 	
 	
 	
@@ -159,6 +163,18 @@ public class Riddle {
 	}
 	public void setLevels(List<Level> levels) {
 		this.levels = levels;
+	}
+	public boolean isCompleted() {
+		return completed;
+	}
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+	public Instant getCreated() {
+		return created;
+	}
+	public void setCreated(Instant created) {
+		this.created = created;
 	}
 	
 	

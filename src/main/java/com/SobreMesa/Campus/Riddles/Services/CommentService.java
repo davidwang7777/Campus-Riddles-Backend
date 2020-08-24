@@ -43,6 +43,7 @@ public class CommentService {
 				try {
 					
 					comment.setHunter_username(hunter.getUsername());
+					comment.setCreated(java.time.Instant.now());
 					forum.getComments().add(comment);
 					communityForumRepository.save(forum);
 					System.out.println("Got to save comm forum SAVE");

@@ -171,6 +171,8 @@ public String postRiddleLevel(Level level, int riddle_id) {
 			Riddler riddler = riddlerOptional.get();
 			try {
 				riddle.setRiddlername(riddler.getUsername());	
+				riddle.setCompleted(false);
+				riddle.setCreated(java.time.Instant.now());
 				riddler.getRiddles().add(riddle);
 				riddlerRepository.save(riddler); //saves riddle in the riddle table and a reference to thme as list here
 			
