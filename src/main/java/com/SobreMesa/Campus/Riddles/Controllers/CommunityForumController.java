@@ -41,7 +41,7 @@ public class CommunityForumController {
 		//System.out.println(communityForum.getContent());
 		String result = cf.addCommunityForum(communityForum);
 		
-		System.out.println("POSTED at:"+ java.time.Instant.now());
+		//System.out.println("POSTED at:"+ java.time.Instant.now());
 		
 		
 		
@@ -65,9 +65,14 @@ public class CommunityForumController {
 		 * 		returns a list of CommunityForum objects where each attribute in the object is taken
 		 * 		from the database
 		 */
+		
+		//System.out.println("IN FORUMS CONTROLLER - before call");
 		List<CommunityForum> communityForums = cf.getAllCommunityForums();
 		
-		System.out.println(communityForums.get(1).getComments());
+		//System.out.println(communityForums.get(1).getComments());
+		
+		
+		//System.out.println("IN FORUMS CONTROLLER - after call");
 		
 		if (!communityForums.isEmpty()) {
 			return new CommunityForumResponse(ResponseStatus.SUCCESS, "Community Forums loaded successfully", communityForums);

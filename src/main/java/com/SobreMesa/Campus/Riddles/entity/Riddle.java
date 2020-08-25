@@ -43,11 +43,6 @@ public class Riddle {
 	private List<Level> levels = new ArrayList<>();
 	private boolean completed;
 	private Instant created;
-	
-	
-	
-	
-	
 	public Riddle(int id, String title, int difficulty, String prize, String riddlername, int levels,
 			String riddledescription, String location, int riddler_id) {
 		super();

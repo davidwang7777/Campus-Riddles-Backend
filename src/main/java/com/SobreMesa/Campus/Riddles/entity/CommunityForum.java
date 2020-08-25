@@ -43,13 +43,13 @@ public class CommunityForum {
 		this.votecount = votecount;
 	}
 	public CommunityForum() {}
-//	public CommunityForum(String title, String content, String media, String hunter_username) {
-//		super();
-//		this.title = title;
-//		this.content = content;
-//		this.media = media;
-//		this.hunter_username = hunter_username;
-//	}
+	public CommunityForum(String title, String content, String media, String hunter_username) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.media = media;
+		this.hunter_username = hunter_username;
+	}
 	
 	public int getId() {
 		return id;

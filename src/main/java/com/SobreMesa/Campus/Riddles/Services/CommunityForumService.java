@@ -38,6 +38,7 @@ public class CommunityForumService {
 				communityForum.setHunter_username(hunter.getUsername());
 				communityForum.setCreated(java.time.Instant.now());
 				hunter.getCommunityForums().add(communityForum);
+				//System.out.println("IN FORUMS SERVICE - right before save call");
 				hunterRepository.save(hunter);
 				
 				
@@ -63,6 +64,7 @@ public class CommunityForumService {
 	
 	public  List<CommunityForum> getCommunityForum(int communityForumId) {
 		List<CommunityForum> communityForums = new ArrayList<>();
+	
 		Optional<CommunityForum> c =  communityForumRepository.findById(communityForumId);
 		
 		//returns found forum or null

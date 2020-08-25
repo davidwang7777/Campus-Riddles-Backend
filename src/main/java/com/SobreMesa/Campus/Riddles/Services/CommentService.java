@@ -42,7 +42,7 @@ public class CommentService {
 				Hunter hunter = hunterOptional.get();
 				try {
 					
-					comment.setHunter_username(hunter.getUsername());
+					//comment.setHunter_username(hunter.getUsername());
 					comment.setCreated(java.time.Instant.now());
 					forum.getComments().add(comment);
 					communityForumRepository.save(forum);
