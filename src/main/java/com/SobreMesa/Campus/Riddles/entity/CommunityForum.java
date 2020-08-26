@@ -19,7 +19,6 @@ public class CommunityForum {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private Instant created_at;
 	private String title;
 	private String content;
 	private String media;
@@ -32,8 +31,8 @@ public class CommunityForum {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="fk_vote_forum", referencedColumnName ="id")
 	private List<Vote> votes = new ArrayList<>();
-	
 	private int votecount;
+	private Instant created;
 	
 	public CommunityForum(int id, String title, String content, String media, int votecount) {
 		super();
@@ -106,6 +105,12 @@ public class CommunityForum {
 	}
 	public void setVotecount(int votecount) {
 		this.votecount = votecount;
+	}
+	public Instant getCreated() {
+		return created;
+	}
+	public void setCreated(Instant created) {
+		this.created = created;
 	}
 	
 

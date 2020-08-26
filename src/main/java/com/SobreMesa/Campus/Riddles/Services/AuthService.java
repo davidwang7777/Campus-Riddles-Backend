@@ -1,10 +1,13 @@
 package com.SobreMesa.Campus.Riddles.Services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +35,7 @@ public class AuthService {
 	private final VerificationTokenRepository verificationTokenRepository;
 	private final JwtUtil jwtUtil;
 	
-	public void signup(RegisterRequest registerRequest) {
+	public AuthenticationResponse signup(RegisterRequest registerRequest) {
 		/*
 		 * This method is specifically for signing up as a Hunter
 		 */
@@ -49,12 +52,21 @@ public class AuthService {
 		 * we will setEnabled(true) 
 		 */
 		user.setEnabled(false);
-		
-		hunterRepo.save(user);
+		try {
+			hunterRepo.save(user);
+		}catch(DataIntegrityViolationException e) {
+			
+			System.out.println(e.getLocalizedMessage()); 
+			
+			return new AuthenticationResponse("", "", "FAIL");
+		}
+		//catch duplicate username HERE
 		
 		//String token = generateVerificationToken(user);
 		
 		// this token above is used to send to the email to be verified. 
+		
+		 return new AuthenticationResponse("", "", "SUCCESS");
 	}
 	
 	public AuthenticationResponse login(LoginRequest loginRequest) {
@@ -65,13 +77,30 @@ public class AuthService {
 				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                 loginRequest.getPassword()));
 		} catch (Exception e ) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+			//TODO: add a proper response here. ie. return "bad credentials message from here"
+			return new AuthenticationResponse("", "", "FAIL");
+			
 		}
 	       System.out.println("step 2: " + authenticate.isAuthenticated());
 	       //SecurityContextHolder.getContext().setAuthentication(authenticate);
 	       String token = jwtUtil.generateToken(loginRequest.getUsername());
-	       return new AuthenticationResponse(token, loginRequest.getUsername());
+	       return new AuthenticationResponse(token, loginRequest.getUsername(), "SUCCESS");
 	}
+	
+	public Hunter getHunterDetails(String hunter_username) {
+		
+		Optional<Hunter> hunterOptional = hunterRepo.findByUsername(hunter_username);
+		
+		if (hunterOptional.isPresent()) {
+			Hunter hunter = hunterOptional.get();
+			return hunter;
+		}else {
+			return null;
+		}
+		
+	}
+	
 	
 	private String generateVerificationToken(Hunter hunter) {
 		/*

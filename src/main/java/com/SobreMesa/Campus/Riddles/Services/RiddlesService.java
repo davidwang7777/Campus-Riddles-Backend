@@ -67,6 +67,16 @@ public class RiddlesService {
 		 return riddles;
 	}
 	
+	public List<Riddle> getTopThreeNewestRiddles(){		
+		List<Riddle> riddles = new ArrayList<>();
+		riddlesRepository.findTopThreeNewestRiddles()
+		.forEach(riddles::add);
+		
+	
+		return riddles;
+	}
+	
+	
 	
 
 	public List<Riddle> getAllSubscribedRiddles(int hunter_id){
@@ -171,6 +181,8 @@ public String postRiddleLevel(Level level, int riddle_id) {
 			Riddler riddler = riddlerOptional.get();
 			try {
 				riddle.setRiddlername(riddler.getUsername());	
+				riddle.setCompleted(false);
+				riddle.setCreated(java.time.Instant.now());
 				riddler.getRiddles().add(riddle);
 				riddlerRepository.save(riddler); //saves riddle in the riddle table and a reference to thme as list here
 			

@@ -118,7 +118,7 @@ public class GetRiddles {
 	
 	
 	
-	@RequestMapping("api/riddles/subscribe/{hunter_id}")
+	@RequestMapping(method= RequestMethod.GET, value="api/riddles/subscribe/{hunter_id}")
 	public RiddlesResponse getAllSubscribedRiddles(@PathVariable int hunter_id){
 		/*
 		 * This method gets all riddles available in the database
@@ -184,6 +184,29 @@ public class GetRiddles {
 			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
 		}
 	}
+	
+	@RequestMapping("api/riddles/newest")
+	public RiddlesResponse getTopThreeNewestRiddles(){
+		/*
+		 * This method gets all riddles available in the database
+		 * 
+		 * Args:
+		 * 		None
+		 * 
+		 * Returns:
+		 * 		returns RiddlesResponse with list of Riddle objects where each attribute in the object is taken
+		 * 		from the database
+		 */
+		List<Riddle> riddles =  rs.getTopThreeNewestRiddles();
+	
+		
+		if (!riddles.isEmpty()) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddles loaded successfully",riddles);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
+		}
+	}
+	
 	
 	@RequestMapping(method= RequestMethod.GET, value="api/riddles/{id}")
 	public RiddlesResponse getRiddle(@PathVariable int id){

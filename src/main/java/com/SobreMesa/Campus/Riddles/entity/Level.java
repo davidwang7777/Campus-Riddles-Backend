@@ -13,9 +13,7 @@ public class Level {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	//maybe wrong? -> database name is: level_number
 	private int level_number;
-
 	private String question;
 	private String answer;
 	@Column(insertable = false, nullable = true)

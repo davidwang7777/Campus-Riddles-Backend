@@ -33,26 +33,15 @@ public class Hunter  {
 	/*
 	 * Use to have @Data, @NoArgsConstructor, @AllArgsContrustor, @Email, @NotBlank
 	 */
-	
-	
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String username;
 	private String email;
 	private String password;
-	
 	@OneToMany(cascade = CascadeType.ALL) 
 	@JoinColumn(name="hunter_id", referencedColumnName = "id")
 	private List<CommunityForum> communityForums = new ArrayList<>();
-
-	//@JoinColumn( name = "riddle_id", referencedColumnName= "id")
-	//to map many riddle_ids to a single hunter object
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name="riddles")
-//	private List<Riddle> subscribed_riddles = new ArrayList<>();
-	
 	@ManyToMany
 	@JoinTable(
 			  name = "hunters_riddles", 
