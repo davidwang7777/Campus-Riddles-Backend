@@ -38,28 +38,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity 
-//        .cors().and()
-//        .csrf().disable()
-//        .authorizeRequests()
-//        .antMatchers(HttpMethod.POST, "/api/**")
-//        .permitAll()
-//        .antMatchers("/api/**")
-//        .permitAll()
-//        .antMatchers(HttpMethod.GET, "/api/posts/")
-//        .permitAll()
-//        .antMatchers(HttpMethod.GET, "/api/posts/**")
-//        .permitAll()
-//        // change the bottom matchers to my site's urls
-//        .antMatchers("/v2/api-docs",
-//                "/configuration/ui",
-//                "/swagger-resources/**",
-//                "/configuration/security",
-//                "/swagger-ui.html",
-//                "/webjars/**")
-//        .permitAll()
-//        .anyRequest()
-//        .authenticated();
+        httpSecurity 
+        .cors().and()
+        .csrf().disable()
+        .authorizeRequests()
+        .antMatchers(HttpMethod.POST, "/api/**")
+        .permitAll()
+        .antMatchers("/api/**")
+        .permitAll()
+        .antMatchers(HttpMethod.GET, "/api/posts/")
+        .permitAll()
+        .antMatchers(HttpMethod.GET, "/api/posts/**")
+        .permitAll()
+        // change the bottom matchers to my site's urls
+        .antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**")
+        .permitAll()
+        .anyRequest()
+        .authenticated();
     }
 //    @Override
 //    public void configure(WebSecurity web) throws Exception {
