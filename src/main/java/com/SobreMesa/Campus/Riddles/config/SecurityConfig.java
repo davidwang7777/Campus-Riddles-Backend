@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,29 +38,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity 
-        .cors().and()
-        .csrf().disable()
-        .authorizeRequests()
-        .antMatchers(HttpMethod.POST, "/api/**")
-        .permitAll()
-        .antMatchers("/api/**")
-        .permitAll()
-        .antMatchers(HttpMethod.GET, "/api/posts/")
-        .permitAll()
-        .antMatchers(HttpMethod.GET, "/api/posts/**")
-        .permitAll()
-        // change the bottom matchers to my site's urls
-        .antMatchers("/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**")
-        .permitAll()
-        .anyRequest()
-        .authenticated();
+//        httpSecurity 
+//        .cors().and()
+//        .csrf().disable()
+//        .authorizeRequests()
+//        .antMatchers(HttpMethod.POST, "/api/**")
+//        .permitAll()
+//        .antMatchers("/api/**")
+//        .permitAll()
+//        .antMatchers(HttpMethod.GET, "/api/posts/")
+//        .permitAll()
+//        .antMatchers(HttpMethod.GET, "/api/posts/**")
+//        .permitAll()
+//        // change the bottom matchers to my site's urls
+//        .antMatchers("/v2/api-docs",
+//                "/configuration/ui",
+//                "/swagger-resources/**",
+//                "/configuration/security",
+//                "/swagger-ui.html",
+//                "/webjars/**")
+//        .permitAll()
+//        .anyRequest()
+//        .authenticated();
     }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().mvcMatchers(HttpMethod.OPTIONS, "/**");
+//        // ignore swagger 
+//        web.ignoring().mvcMatchers("/swagger-ui.html/**", "/configuration/**", "/swagger-resources/**", "/v2/api-docs");
+//    }
+    
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**");
+
+    }
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManager) throws Exception 

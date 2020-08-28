@@ -13,13 +13,14 @@ import com.SobreMesa.Campus.Riddles.entity.Vote;
 import Enum.ResponseStatus;
 
 @RestController
+@RequestMapping("/api")
 public class VoteController {
 
 	
 	@Autowired
 	VoteService vs;
 	
-	@RequestMapping(method= RequestMethod.POST, value="api/community-forums/vote")
+	@RequestMapping(method= RequestMethod.POST, value="community-forums/vote")
 	public CommunityForumResponse addVote(@RequestBody Vote vote) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a CommunityForum object. it then gets added to the database

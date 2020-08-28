@@ -9,6 +9,7 @@ import com.SobreMesa.Campus.Riddles.entity.Riddle;
 import com.SobreMesa.Campus.Riddles.entity.Riddler;
 import com.SobreMesa.Campus.Riddles.repo.RiddlesRepository;
 import com.SobreMesa.Campus.Riddles.repo.HunterRepository;
+import com.SobreMesa.Campus.Riddles.repo.LevelRepository;
 import com.SobreMesa.Campus.Riddles.repo.RiddlerRepository;
 
 import org.hibernate.query.criteria.internal.expression.function.AggregationFunction.LEAST;
@@ -27,6 +28,7 @@ public class RiddlesService {
 	private RiddlerRepository riddlerRepository;
 	@Autowired
 	private HunterRepository hunterRepository;
+	@Autowired LevelRepository levelRepository;
 	
 	
 	/*
@@ -196,6 +198,50 @@ public String postRiddleLevel(Level level, int riddle_id) {
 		
 			return "No riddler found for that id.";
 		}
+	}
+	
+	
+	
+	public String attemptRiddle(String answer, int riddle_id) {
+		System.out.println("In riddle level attempt");
+		Optional<Riddle> riddleOptional = riddlesRepository.findById(riddle_id);
+		
+		
+		if (riddleOptional.isPresent())
+		{
+			Riddle riddle = riddleOptional.get();
+			
+			List<Level> levels = riddle.getLevels();
+			
+			System.out.println("There are " +levels.size()+ " levels");
+			
+			for (int x = 0; x < levels.size(); x++) {
+				System.out.println("Looping thoruhg each level");
+				
+				//if answer correct
+				if (levels.get(x).getAnswer().contains(answer) ){
+					System.out.println("CORRECT ANSWER!");
+					
+					//update with removed level
+					//levelRepository.delete(levels.get(x));
+					System.out.println("Will delete" +levels.get(x).getId());
+					
+					levels.remove(x);
+					
+					
+					riddlesRepository.save(riddle);
+					
+					
+					//levelRepository.deleteById(levels.get(x).getId());
+				}
+			}
+			
+		}else {
+			return "No riddle found";
+		}
+		
+		
+		return "success";
 	}
 	
 public String subscribeToRiddle(int hunter_id, int riddle_id) {

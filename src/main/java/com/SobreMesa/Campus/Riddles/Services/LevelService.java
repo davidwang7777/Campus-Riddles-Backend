@@ -17,7 +17,7 @@ public class LevelService {
 	
 	
 	public String postRiddleLevel(Level level, int riddle_id) {
-		
+		System.out.println("In level post");
 		
 		Optional<Riddle> riddleOptional = riddlesRepository.findById(riddle_id);
 		
@@ -26,6 +26,8 @@ public class LevelService {
 			try {
 			riddle.getLevels().add(level);
 			riddlesRepository.save(riddle);
+			
+			System.out.println("Posted level for riddle" +riddle_id);
 			}catch (DataIntegrityViolationException e){
 				System.out.println("cant save level for riddles");
 			}

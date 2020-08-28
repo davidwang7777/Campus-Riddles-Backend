@@ -43,6 +43,8 @@ public class Riddle {
 	private List<Level> levels = new ArrayList<>();
 	private boolean completed;
 	private Instant created;
+	private String completedby;
+	
 	public Riddle(int id, String title, int difficulty, String prize, String riddlername, int levels,
 			String riddledescription, String location, int riddler_id) {
 		super();
@@ -170,6 +172,12 @@ public class Riddle {
 	}
 	public void setCreated(Instant created) {
 		this.created = created;
+	}
+	public String getCompletedby() {
+		return completedby;
+	}
+	public void setCompletedby(String completedBy) {
+		this.completedby = completedBy;
 	}
 	
 	

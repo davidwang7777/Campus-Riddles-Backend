@@ -55,12 +55,13 @@ import Enum.ResponseStatus;
 
 //@CrossOrigin(origins = "http://localhost:4200")
 @RestController
+@RequestMapping("/api")
 public class GetRiddles {
 	
 	@Autowired
 	RiddlesService rs; 
 	
-	@RequestMapping(method= RequestMethod.POST, value="api/riddles")
+	@RequestMapping(method= RequestMethod.POST, value="riddles")
 	public RiddlesResponse subscribeToRiddle(@RequestParam("riddle_id") int riddle_id, @RequestParam("hunter_id") int hunter_id) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a riddle object. it then gets added to the database
@@ -85,9 +86,33 @@ public class GetRiddles {
 		}
 	}
 	
+	@RequestMapping(method= RequestMethod.POST, value="riddles/attempt")
+	public RiddlesResponse attemptRiddle(@RequestParam("answer") String answer, @RequestParam("riddle_id") int riddle_id) {
+	   /* this method takes a json structure that is created in the front end that represents
+		*	a riddle object. it then gets added to the database
+		*
+		*	Args:
+		*		Riddle json data found in RequestBody of this POST call. Automatically converted to a 
+		*		Riddle object by spring boot
+		*
+		*	Returns:
+		*		RiddlesResponse
+		*
+		*/
+		
+		//System.out.println("IN SUBSCRIBE FUNCTION");
+		
+		String result = rs.attemptRiddle(answer, riddle_id);
+		if (result.contains("success") ) {
+			return new RiddlesResponse(ResponseStatus.SUCCESS, "Guessed successfully", null);
+		}else {
+			return new RiddlesResponse(ResponseStatus.FAILURE, result, null);
+		}
+	}
+	
 	//Level level, int riddle_id
 	
-	@RequestMapping(method= RequestMethod.POST, value="api/riddles/levels")
+	@RequestMapping(method= RequestMethod.POST, value="riddles/levels")
 	public RiddlesResponse addRiddleLevel(@RequestBody Level level , @RequestParam("riddle_id") int riddle_id) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a riddle object. it then gets added to the database
@@ -118,7 +143,7 @@ public class GetRiddles {
 	
 	
 	
-	@RequestMapping(method= RequestMethod.GET, value="api/riddles/subscribe/{hunter_id}")
+	@RequestMapping(method= RequestMethod.GET, value="riddles/subscribe/{hunter_id}")
 	public RiddlesResponse getAllSubscribedRiddles(@PathVariable int hunter_id){
 		/*
 		 * This method gets all riddles available in the database
@@ -140,7 +165,7 @@ public class GetRiddles {
 		}
 	}
 
-	@RequestMapping(method= RequestMethod.POST, value="api/riddles/submit")
+	@RequestMapping(method= RequestMethod.POST, value="riddles/submit")
 	public RiddlesResponse addRiddle(@RequestBody Riddle riddle) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a riddle object. it then gets added to the database
@@ -163,7 +188,7 @@ public class GetRiddles {
 		}
 	}
 	
-	@RequestMapping("api/riddles")
+	@RequestMapping("riddles")
 	public RiddlesResponse getAllRiddles(){
 		/*
 		 * This method gets all riddles available in the database
@@ -185,7 +210,7 @@ public class GetRiddles {
 		}
 	}
 	
-	@RequestMapping("api/riddles/newest")
+	@RequestMapping("riddles/newest")
 	public RiddlesResponse getTopThreeNewestRiddles(){
 		/*
 		 * This method gets all riddles available in the database
@@ -208,7 +233,7 @@ public class GetRiddles {
 	}
 	
 	
-	@RequestMapping(method= RequestMethod.GET, value="api/riddles/{id}")
+	@RequestMapping(method= RequestMethod.GET, value="riddles/{id}")
 	public RiddlesResponse getRiddle(@PathVariable int id){
 		/*
 		 * This method gets all community forums available in the database
@@ -232,7 +257,7 @@ public class GetRiddles {
 	}
 	
 	//@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@RequestMapping(method=RequestMethod.PUT, value="api//riddles")
+	@RequestMapping(method=RequestMethod.PUT, value="riddles")
 	public RiddlesResponse updateRiddle(@RequestBody Riddle riddle) {
 		/*
 		 * This method is first gets the json structure in the RequestBody. That json structure
@@ -256,7 +281,7 @@ public class GetRiddles {
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="api/riddles/{id}")
+	@RequestMapping(method=RequestMethod.DELETE, value="riddles/{id}")
 	public RiddlesResponse deleteRiddle(@PathVariable int riddleId) {
 		/*
 		 * This method takes riddle id and deletes that riddle if it

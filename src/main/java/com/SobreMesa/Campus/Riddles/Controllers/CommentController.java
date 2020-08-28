@@ -19,12 +19,13 @@ import com.SobreMesa.Campus.Riddles.entity.CommunityForum;
 import Enum.ResponseStatus;
 
 @RestController
+@RequestMapping("/api")
 public class CommentController {
 
 	@Autowired
 	CommentService cs; 
 	
-	@RequestMapping(method= RequestMethod.POST, value="api/community-forums/comments/submit")
+	@RequestMapping(method= RequestMethod.POST, value="community-forums/comments/submit")
 	public CommunityForumResponse addComment(@RequestBody Comment comment) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a CommunityForum object. it then gets added to the database
@@ -49,7 +50,7 @@ public class CommentController {
 		
 	}
 	
-	@RequestMapping(method= RequestMethod.GET, value="api/community-forums/comments/{forum_id}")
+	@RequestMapping(method= RequestMethod.GET, value="community-forums/comments/{forum_id}")
 	public CommentResponse getForumComments(@PathVariable int forum_id){
 		/*
 		 * This method gets all forums available in the database

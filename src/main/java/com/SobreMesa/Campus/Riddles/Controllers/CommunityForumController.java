@@ -19,13 +19,14 @@ import com.SobreMesa.Campus.Riddles.entity.CommunityForum;
 import Enum.ResponseStatus;
 
 @RestController
+@RequestMapping("/api")
 public class CommunityForumController {
 
 	
 	@Autowired
 	CommunityForumService cf; 
 	
-	@RequestMapping(method= RequestMethod.POST, value="api/community-forums/submit")
+	@RequestMapping(method= RequestMethod.POST, value="community-forums/submit")
 	public CommunityForumResponse addCommunityForum(@RequestBody CommunityForum communityForum) {
 	   /* this method takes a json structure that is created in the front end that represents
 		*	a CommunityForum object. it then gets added to the database
@@ -53,7 +54,7 @@ public class CommunityForumController {
 		
 	}
 	
-	@RequestMapping(method= RequestMethod.GET, value="api/community-forums")
+	@RequestMapping(method= RequestMethod.GET, value="community-forums")
 	public CommunityForumResponse getAllCommunityForums(){
 		/*
 		 * This method gets all forums available in the database
@@ -82,7 +83,7 @@ public class CommunityForumController {
 		
 		
 	}
-	@RequestMapping(method= RequestMethod.GET, value="api/community-forums/{id}")
+	@RequestMapping(method= RequestMethod.GET, value="community-forums/{id}")
 	public CommunityForumResponse getCommunityForum(@PathVariable int id){
 		/*
 		 * This method gets all community forums available in the database
@@ -122,7 +123,7 @@ public class CommunityForumController {
 //		return cf.getCommunityForumByKeyword(keyword);
 //	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="api/community-forums")
+	@RequestMapping(method=RequestMethod.PUT, value="community-forums")
 	public CommunityForumResponse updateCommunityForum(@RequestBody CommunityForum communityForum) {
 		/*
 		 * This method updates community forum in the database given id and new forum data
@@ -144,7 +145,7 @@ public class CommunityForumController {
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="api/community-forums/{communityForumId}")
+	@RequestMapping(method=RequestMethod.DELETE, value="community-forums/{communityForumId}")
 	public CommunityForumResponse deleteCommunityForum(@PathVariable int communityForumId) {
 		/*
 		 * This method takes community forum id of a forum and deletes that forum if it
