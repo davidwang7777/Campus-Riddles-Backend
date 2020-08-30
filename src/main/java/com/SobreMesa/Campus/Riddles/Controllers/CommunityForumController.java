@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import com.SobreMesa.Campus.Riddles.Services.CommunityForumService;
 import com.SobreMesa.Campus.Riddles.dto.CommunityForumResponse;
 import com.SobreMesa.Campus.Riddles.dto.RiddlesResponse;
 import com.SobreMesa.Campus.Riddles.entity.CommunityForum;
+import com.SobreMesa.Campus.Riddles.entity.Riddle;
 
 import Enum.ResponseStatus;
 
@@ -53,36 +55,47 @@ public class CommunityForumController {
 		}
 		
 	}
-	
-	@RequestMapping(method= RequestMethod.GET, value="community-forums")
-	public CommunityForumResponse getAllCommunityForums(){
+	@GetMapping("community-forums")
+	public CommunityForumResponse getCommunityForms(@RequestParam("sort") String order){
 		/*
-		 * This method gets all forums available in the database
+		 * This method gets all Forums available in the database
 		 * 
 		 * Args:
 		 * 		None
 		 * 
 		 * Returns:
-		 * 		returns a list of CommunityForum objects where each attribute in the object is taken
+		 * 		returns RiddlesResponse with list of Forums objects where each attribute in the object is taken
 		 * 		from the database
 		 */
+
+		List<CommunityForum> communityForums = null;
 		
-		//System.out.println("IN FORUMS CONTROLLER - before call");
-		List<CommunityForum> communityForums = cf.getAllCommunityForums();
+		switch (order) {
+			case "Votes (high - low)":
+				communityForums = cf.findForumsByDscVotecount();
+				break;
+			case "Votes (low - high)":
+				communityForums = cf.findForumsByAscVotecount();
+				break;
+			case "Oldest":
+				communityForums = cf.findForumsByOldest();
+				break;
+			case "Newest":
+				communityForums = cf.findForumsByNewest();
+				break;
+			default:
+				break;
+		}
 		
-		//System.out.println(communityForums.get(1).getComments());
-		
-		
-		//System.out.println("IN FORUMS CONTROLLER - after call");
-		
-		if (!communityForums.isEmpty()) {
+	
+		if (communityForums != null) {
 			return new CommunityForumResponse(ResponseStatus.SUCCESS, "Community Forums loaded successfully", communityForums);
 		}else {
 			return new CommunityForumResponse(ResponseStatus.FAILURE, "No Community Forums found", communityForums);
 		}
-		
-		
 	}
+	
+	
 	@RequestMapping(method= RequestMethod.GET, value="community-forums/{id}")
 	public CommunityForumResponse getCommunityForum(@PathVariable int id){
 		/*
@@ -105,24 +118,6 @@ public class CommunityForumController {
 		}
 		
 	}
-	
-	
-//	@RequestMapping(method= RequestMethod.GET, value="api/community-forums/{keyword}")
-//	public List<CommunityForum> getCommunityForums(@PathVariable String keyword){
-//		/*
-//		 * This method gets all community forums available in the database
-//		 * 
-//		 * Args:
-//		 * 		None
-//		 * 
-//		 * Returns:
-//		 * 		returns a list of CommunityForum objects where each attribute in the object is taken
-//		 * 		from the database
-//		 */
-//		
-//		return cf.getCommunityForumByKeyword(keyword);
-//	}
-	
 	@RequestMapping(method=RequestMethod.PUT, value="community-forums")
 	public CommunityForumResponse updateCommunityForum(@RequestBody CommunityForum communityForum) {
 		/*

@@ -35,7 +35,7 @@ public class RiddlesService {
 	 * this following method uses "Method References" and "lambda expressions" which is 
 	 * covered in a java brains video to learn later
 	 */
-	public List<Riddle> getAllRiddles(){
+	public List<Riddle> getRiddlesByOldest(){
 		/*
 		 * This method uses RiddlesRepository which is an interface that utilizes 
 		 * Object Relational Mapping (ORM) technique which converts data from a database
@@ -48,10 +48,7 @@ public class RiddlesService {
 		 * Returns:
 		 * 		List of riddle objects filled with database data
 		 */
-//		Hunter h = new Hunter("messi10", "messi@mail.com", "mypasscode");
-//		hunterRepository.save(h);
-		
-		
+
 		
 		List<Riddle> riddles = new ArrayList<>();
 		riddlesRepository.findAll()
@@ -60,6 +57,14 @@ public class RiddlesService {
 	
 		return riddles;
 	}
+	public  List<Riddle> getRiddlesByNewest() {
+		List<Riddle> riddles = new ArrayList<>();
+		riddlesRepository.findRiddlesByNewest()
+		.forEach(riddles::add);
+		return riddles;
+	}
+	
+	
 	public  List<Riddle> getRiddle(int riddleId) {
 		List<Riddle> riddles = new ArrayList<>();
 		Optional<Riddle> c =  riddlesRepository.findById(riddleId);
@@ -68,6 +73,23 @@ public class RiddlesService {
 		riddles.add( c.orElse(null));
 		 return riddles;
 	}
+	
+	public  List<Riddle> getRiddlesByAscDifficulty() {
+		List<Riddle> riddles = new ArrayList<>();
+		riddlesRepository.findRiddlesByAscDifficulty()
+		.forEach(riddles::add);
+		return riddles;
+	}
+	
+	public  List<Riddle> getRiddlesByDscDifficulty() {
+		List<Riddle> riddles = new ArrayList<>();
+		riddlesRepository.findRiddlesByDscDifficulty()
+		.forEach(riddles::add);
+		return riddles;
+	}
+	
+	
+	
 	
 	public List<Riddle> getTopThreeNewestRiddles(){		
 		List<Riddle> riddles = new ArrayList<>();

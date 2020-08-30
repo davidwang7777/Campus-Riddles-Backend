@@ -12,8 +12,20 @@ public interface RiddlesRepository extends CrudRepository<Riddle, Integer> {
 	
 	//public List<Riddle> findByName(String name);
 	
-	//SELECT * FROM campusriddles.riddles order by created desc limit 3
+	
 	@Query(value="SELECT * FROM campusriddles.riddles order by created desc limit 3", nativeQuery =true)
 	List<Riddle> findTopThreeNewestRiddles();
-
+	
+	
+	@Query(value="SELECT * FROM campusriddles.riddles ORDER BY difficulty", nativeQuery =true)
+	List<Riddle> findRiddlesByAscDifficulty();
+	
+	
+	@Query(value="SELECT * FROM campusriddles.riddles ORDER BY difficulty DESC", nativeQuery =true)
+	List<Riddle> findRiddlesByDscDifficulty();
+	
+	
+	
+	@Query(value="SELECT * FROM campusriddles.riddles ORDER BY created DESC", nativeQuery =true)
+	List<Riddle> findRiddlesByNewest();
 }

@@ -54,12 +54,33 @@ public class CommunityForumService {
 		}
 	}
 	
-	public List<CommunityForum> getAllCommunityForums(){
+	public List<CommunityForum> findForumsByOldest(){
 		List<CommunityForum> communityForums = new ArrayList<>();
 		communityForumRepository.findAll()
 		.forEach(communityForums::add);
 		return communityForums;
 	}
+	public List<CommunityForum> findForumsByNewest(){
+		List<CommunityForum> communityForums = new ArrayList<>();
+		communityForumRepository.findForumsByNewest()
+		.forEach(communityForums::add);
+		return communityForums;
+	}
+	public List<CommunityForum> findForumsByAscVotecount(){
+		List<CommunityForum> communityForums = new ArrayList<>();
+		communityForumRepository.findForumsByAscVotecount()
+		.forEach(communityForums::add);
+		return communityForums;
+	}
+	
+	public List<CommunityForum> findForumsByDscVotecount(){
+		List<CommunityForum> communityForums = new ArrayList<>();
+		communityForumRepository.findForumsByDscVotecount()
+		.forEach(communityForums::add);
+		return communityForums;
+	}
+
+	
 	
 	
 	public  List<CommunityForum> getCommunityForum(int communityForumId) {

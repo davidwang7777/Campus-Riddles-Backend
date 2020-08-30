@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -126,11 +127,6 @@ public class GetRiddles {
 		*
 		*/
 		
-		System.out.println("IN LEVELS FUNCTION");
-		
-		System.out.println(level.getLevelnumber());
-		
-		
 		String result = rs.postRiddleLevel(level, riddle_id);
 		
 		if (result.contains("success") ) {
@@ -188,8 +184,29 @@ public class GetRiddles {
 		}
 	}
 	
-	@RequestMapping("riddles")
-	public RiddlesResponse getAllRiddles(){
+//	@RequestMapping("riddles")
+//	public RiddlesResponse getAllRiddles(){
+//		/*
+//		 * This method gets all riddles available in the database
+//		 * 
+//		 * Args:
+//		 * 		None
+//		 * 
+//		 * Returns:
+//		 * 		returns RiddlesResponse with list of Riddle objects where each attribute in the object is taken
+//		 * 		from the database
+//		 */
+//		List<Riddle> riddles =  rs.getAllRiddles();
+//	
+//		
+//		if (!riddles.isEmpty()) {
+//			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddles loaded successfully",riddles);
+//		}else {
+//			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
+//		}
+//	}
+	@GetMapping("riddles")
+	public RiddlesResponse getRiddles(@RequestParam("sort") String order){
 		/*
 		 * This method gets all riddles available in the database
 		 * 
@@ -200,16 +217,39 @@ public class GetRiddles {
 		 * 		returns RiddlesResponse with list of Riddle objects where each attribute in the object is taken
 		 * 		from the database
 		 */
-		List<Riddle> riddles =  rs.getAllRiddles();
-	
+
+		List<Riddle> riddles = null;
 		
-		if (!riddles.isEmpty()) {
+		switch (order) {
+			case "Difficulty (high - low)":
+				riddles = rs.getRiddlesByAscDifficulty();
+				break;
+			case "Difficulty (low - high)":
+				riddles = rs.getRiddlesByDscDifficulty();
+				break;
+			case "Oldest":
+				riddles = rs.getRiddlesByOldest();
+				break;
+			case "Newest":
+				riddles = rs.getRiddlesByNewest();
+				break;
+			default:
+				break;
+		}
+		
+	
+		if (riddles != null) {
 			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddles loaded successfully",riddles);
 		}else {
 			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
 		}
 	}
+
+
+//	getRiddlesByDifficulty
 	
+	
+	//http://localhost:8080/api/riddles?sort=difficulty
 	@RequestMapping("riddles/newest")
 	public RiddlesResponse getTopThreeNewestRiddles(){
 		/*
