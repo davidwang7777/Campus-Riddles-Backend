@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
+
+import com.SobreMesa.Campus.Riddles.entity.Comment;
 import com.SobreMesa.Campus.Riddles.entity.Riddle;
 
 
@@ -28,4 +30,9 @@ public interface RiddlesRepository extends CrudRepository<Riddle, Integer> {
 	
 	@Query(value="SELECT * FROM campusriddles.riddles ORDER BY created DESC", nativeQuery =true)
 	List<Riddle> findRiddlesByNewest();
+	
+//	
+//	@Query( value = "SELECT * FROM campusriddles.comments c WHERE c.forum_id = ?1", nativeQuery = true )
+//	public List<Comment> findAllByForum_id(int forum_id);
+
 }

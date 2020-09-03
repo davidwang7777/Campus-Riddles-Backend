@@ -3,9 +3,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -183,28 +189,7 @@ public class GetRiddles {
 			return new RiddlesResponse(ResponseStatus.FAILURE, result, null);
 		}
 	}
-	
-//	@RequestMapping("riddles")
-//	public RiddlesResponse getAllRiddles(){
-//		/*
-//		 * This method gets all riddles available in the database
-//		 * 
-//		 * Args:
-//		 * 		None
-//		 * 
-//		 * Returns:
-//		 * 		returns RiddlesResponse with list of Riddle objects where each attribute in the object is taken
-//		 * 		from the database
-//		 */
-//		List<Riddle> riddles =  rs.getAllRiddles();
-//	
-//		
-//		if (!riddles.isEmpty()) {
-//			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddles loaded successfully",riddles);
-//		}else {
-//			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
-//		}
-//	}
+
 	@GetMapping("riddles")
 	public RiddlesResponse getRiddles(@RequestParam("sort") String order){
 		/*
@@ -222,10 +207,10 @@ public class GetRiddles {
 		
 		switch (order) {
 			case "Difficulty (high - low)":
-				riddles = rs.getRiddlesByAscDifficulty();
+				riddles = rs.getRiddlesByDscDifficulty();
 				break;
 			case "Difficulty (low - high)":
-				riddles = rs.getRiddlesByDscDifficulty();
+				riddles = rs.getRiddlesByAscDifficulty();
 				break;
 			case "Oldest":
 				riddles = rs.getRiddlesByOldest();
@@ -236,20 +221,14 @@ public class GetRiddles {
 			default:
 				break;
 		}
-		
 	
 		if (riddles != null) {
 			return new RiddlesResponse(ResponseStatus.SUCCESS, "Riddles loaded successfully",riddles);
 		}else {
 			return new RiddlesResponse(ResponseStatus.FAILURE, "No Riddles loaded", null);
 		}
-	}
-
-
-//	getRiddlesByDifficulty
+	}	
 	
-	
-	//http://localhost:8080/api/riddles?sort=difficulty
 	@RequestMapping("riddles/newest")
 	public RiddlesResponse getTopThreeNewestRiddles(){
 		/*

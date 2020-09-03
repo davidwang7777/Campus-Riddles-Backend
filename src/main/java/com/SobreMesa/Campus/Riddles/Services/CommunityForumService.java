@@ -1,10 +1,12 @@
 package com.SobreMesa.Campus.Riddles.Services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.SobreMesa.Campus.Riddles.entity.CommunityForum;
 import com.SobreMesa.Campus.Riddles.entity.Hunter;
+import com.SobreMesa.Campus.Riddles.entity.Riddle;
 import com.SobreMesa.Campus.Riddles.repo.CommunityForumRepository;
 import com.SobreMesa.Campus.Riddles.repo.HunterRepository;
 @Service
@@ -134,41 +137,43 @@ public class CommunityForumService {
 		
 	}
 	
-	
-	
-//	public List<CommunityForum> getCommunityForumByTitle(String title){
-//		List<CommunityForum> communityForums = new ArrayList<>();
-//		communityForumRepository.findByTitle(title)
-//		.forEach(communityForums::add);
-//		return communityForums;
+//	public void createdToTimeAgo(List<Riddle> riddles) {
+//		riddles.forEach(riddle -> 
+//		riddle.setCreatedstring(
+//				MilliToTimeAgo(riddle.getCreated().toEpochMilli())
+//				)
+//		);
 //	}
-	public List<CommunityForum> getCommunityForumByKeyword(String keyword) {
-		List<CommunityForum> communityForums = new ArrayList<>();
-		communityForumRepository.findAll().forEach(communityForums::add);
-
-		for (CommunityForum cf : communityForums) {
-			// if forum does not contain keyword, remove it from list.
-			if (cf.getTitle().contains(keyword)) {
-
-				System.out.println(cf.getTitle());
-				// communityForums.remove(cf);
-			} else {
-				communityForums.remove(cf);
-			}
-		}
-
-		for (Iterator<CommunityForum> iterator = communityForums.iterator(); iterator.hasNext();) {
-			CommunityForum cf = iterator.next();
-			if (cf.getTitle().contains(keyword)) {
-
-			} else {
-				// Remove the current element from the iterator and the list.
-				iterator.remove();
-			}
-
-		}
-		return communityForums;
-
-	}
+//	
+//	public String MilliToTimeAgo(long createdTime) {
+//		long timePassedInMilli =  System.currentTimeMillis() - createdTime;
+//		
+//		System.out.println(timePassedInMilli);
+//		
+//		List<Long> times = Arrays.asList(
+//		        TimeUnit.DAYS.toMillis(365),
+//		        TimeUnit.DAYS.toMillis(30),
+//		        TimeUnit.DAYS.toMillis(1),
+//		        TimeUnit.HOURS.toMillis(1),
+//		        TimeUnit.MINUTES.toMillis(1),
+//		        TimeUnit.SECONDS.toMillis(1) );
+//		List<String> timesString = Arrays.asList("year","month","day","hour","minute","second");
+//		
+//		   StringBuffer res = new StringBuffer();
+//		   
+//		    for(int i=0;i< times.size(); i++) {
+//		        Long current = times.get(i);
+//		        long temp = timePassedInMilli/current;
+//		        if(temp>0) {
+//		        	
+//		            res.append(temp).append(" ").append( timesString.get(i) ).append(temp != 1 ? "s" : "").append(" ago");
+//		            break;
+//		        }
+//		    }
+//		    if("".equals(res.toString()))
+//		        return "0 seconds ago";
+//		    else
+//		        return res.toString();
+//	}
 
 }

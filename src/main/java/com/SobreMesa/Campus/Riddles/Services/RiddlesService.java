@@ -17,10 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class RiddlesService {
+	
 	
 	@Autowired
 	RiddlesRepository riddlesRepository;
@@ -53,17 +57,20 @@ public class RiddlesService {
 		List<Riddle> riddles = new ArrayList<>();
 		riddlesRepository.findAll()
 		.forEach(riddles::add);
+		createdToTimeAgo(riddles);
 		
 	
 		return riddles;
 	}
+
+	
 	public  List<Riddle> getRiddlesByNewest() {
 		List<Riddle> riddles = new ArrayList<>();
 		riddlesRepository.findRiddlesByNewest()
 		.forEach(riddles::add);
+		createdToTimeAgo(riddles);
 		return riddles;
-	}
-	
+	}	
 	
 	public  List<Riddle> getRiddle(int riddleId) {
 		List<Riddle> riddles = new ArrayList<>();
@@ -71,6 +78,7 @@ public class RiddlesService {
 		
 		//returns found forum or null
 		riddles.add( c.orElse(null));
+		createdToTimeAgo(riddles);
 		 return riddles;
 	}
 	
@@ -78,6 +86,7 @@ public class RiddlesService {
 		List<Riddle> riddles = new ArrayList<>();
 		riddlesRepository.findRiddlesByAscDifficulty()
 		.forEach(riddles::add);
+		createdToTimeAgo(riddles);
 		return riddles;
 	}
 	
@@ -85,6 +94,8 @@ public class RiddlesService {
 		List<Riddle> riddles = new ArrayList<>();
 		riddlesRepository.findRiddlesByDscDifficulty()
 		.forEach(riddles::add);
+		createdToTimeAgo(riddles);
+		
 		return riddles;
 	}
 	
@@ -95,7 +106,7 @@ public class RiddlesService {
 		List<Riddle> riddles = new ArrayList<>();
 		riddlesRepository.findTopThreeNewestRiddles()
 		.forEach(riddles::add);
-		
+		createdToTimeAgo(riddles);
 	
 		return riddles;
 	}
@@ -139,14 +150,6 @@ public class RiddlesService {
 		
 			System.out.println("no hunter found");
 		}
-		
-		
-		
-//		List<Riddle> riddles = new ArrayList<>();
-//		riddlesRepository.findAll()
-//		.forEach(riddles::add);
-		
-	
 		return null;
 	}
 	
@@ -362,6 +365,46 @@ public String subscribeToRiddle(int hunter_id, int riddle_id) {
 		return "success";
 		
 	}
+	
+	public void createdToTimeAgo(List<Riddle> riddles) {
+		riddles.forEach(riddle -> 
+		riddle.setCreatedstring(
+				MilliToTimeAgo(riddle.getCreated().toEpochMilli())
+				)
+		);
+	}
+	
+	public String MilliToTimeAgo(long createdTime) {
+		long timePassedInMilli =  System.currentTimeMillis() - createdTime;
+		
+		System.out.println(timePassedInMilli);
+		
+		List<Long> times = Arrays.asList(
+		        TimeUnit.DAYS.toMillis(365),
+		        TimeUnit.DAYS.toMillis(30),
+		        TimeUnit.DAYS.toMillis(1),
+		        TimeUnit.HOURS.toMillis(1),
+		        TimeUnit.MINUTES.toMillis(1),
+		        TimeUnit.SECONDS.toMillis(1) );
+		List<String> timesString = Arrays.asList("year","month","day","hour","minute","second");
+		
+		   StringBuffer res = new StringBuffer();
+		   
+		    for(int i=0;i< times.size(); i++) {
+		        Long current = times.get(i);
+		        long temp = timePassedInMilli/current;
+		        if(temp>0) {
+		        	
+		            res.append(temp).append(" ").append( timesString.get(i) ).append(temp != 1 ? "s" : "").append(" ago");
+		            break;
+		        }
+		    }
+		    if("".equals(res.toString()))
+		        return "0 seconds ago";
+		    else
+		        return res.toString();
+	}
+	
 	
 	
 }
