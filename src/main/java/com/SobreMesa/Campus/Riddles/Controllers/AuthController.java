@@ -23,6 +23,12 @@ public class AuthController {
 	
 	@Autowired
 	private AuthService authService;
+	
+//	@GetMapping("/refreshToken")
+//	public Mono<RefreshTokenDto> getRefreshToken(@RequestHeader(value = 
+//		HttpHeaders.AUTHORIZATION) String bearerStr) {
+//		
+//	}
 
 	@PostMapping("signup")
 	public AuthenticationResponse signup(@RequestBody RegisterRequest registerRequest) {
