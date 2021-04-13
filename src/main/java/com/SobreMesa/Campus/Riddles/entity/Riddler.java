@@ -13,8 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name="riddlers")
 public class Riddler {
 	@Id
@@ -57,99 +61,4 @@ public class Riddler {
 		this.profile_picture = profile_picture;
 		this.hunter_account = hunter_account;
 	}
-
-	public String getfirst_name() {
-		return first_name;
-	}
-
-	public void setfirst_name(String first_name) {
-		this.first_name = first_name;
-	}
-
-	public String getlast_name() {
-		return last_name;
-	}
-
-	public void setlast_name(String last_name) {
-		this.last_name = last_name;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getSchool() {
-		return school;
-	}
-
-	public void setSchool(String school) {
-		this.school = school;
-	}
-
-	public String getcampus_location() {
-		return campus_location;
-	}
-
-	public void setcampus_location(String campus_location) {
-		this.campus_location = campus_location;
-	}
-
-	public String getId_image() {
-		return id_image;
-	}
-
-	public void setId_image(String id_image) {
-		this.id_image = id_image;
-	}
-
-	public String getisearch_link() {
-		return isearch_link;
-	}
-
-	public void setisearch_link(String isearch_link) {
-		this.isearch_link = isearch_link;
-	}
-
-	public String getProfile_picture() {
-		return profile_picture;
-	}
-
-	public void setProfile_picture(String profile_picture) {
-		this.profile_picture = profile_picture;
-	}
-
-	public int gethunter_account() {
-		return hunter_account;
-	}
-
-	public void sethunter_account(int hunter_account) {
-		this.hunter_account = hunter_account;
-	}
-	public List<Riddle> getRiddles() {
-		return riddles;
-	}
-	public void setRiddles(List<Riddle> riddles) {
-		this.riddles = riddles;
-	}
-	
 }

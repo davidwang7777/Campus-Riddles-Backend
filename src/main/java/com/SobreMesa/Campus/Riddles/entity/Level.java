@@ -6,8 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name= "levels")
 public class Level {
 	@Id
@@ -26,35 +30,4 @@ public class Level {
 		this.question = question;
 		this.answer = answer;
 	}
-	public int getLevelnumber() {
-		return level_number;
-	}
-	public void setLevelnumber(int levelnumber) {
-		this.level_number = levelnumber;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getQuestion() {
-		return question;
-	}
-	public void setQuestion(String question) {
-		this.question = question;
-	}
-	public String getAnswer() {
-		return answer;
-	}
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
-	public int getFk_riddles_levels() {
-		return fk_riddles_levels;
-	}
-	public void setFk_riddles_levels(int fk_riddles_levels) {
-		this.fk_riddles_levels = fk_riddles_levels;
-	}
-	
 }

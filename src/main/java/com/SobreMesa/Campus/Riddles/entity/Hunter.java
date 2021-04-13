@@ -23,11 +23,15 @@ import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 
 
 
 @Entity
+@Getter
+@Setter
 @Table(name = "hunters")
 public class Hunter  {
 	/*
@@ -71,60 +75,5 @@ public class Hunter  {
 		this.id = temp.getId();
 	}
 	
-	
-	public int getId() {
-		return id;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public List<CommunityForum> getCommunityForums() {
-		return communityForums;
-	}
-	public void setCommunityForums(List<CommunityForum> communityForums) {
-		this.communityForums = communityForums;
-	}
-//	public List<Riddle> getSubscribed_riddles() {
-//		return subscribed_riddles;
-//	}
-//	public void setSubscribed_riddles(List<Riddle> subscribed_riddles) {
-//		this.subscribed_riddles = subscribed_riddles;
-//	}
-//	
-	public List<Riddle> getSubscribedRiddles() {
-		return subscribedRiddles;
-	}
-	public void setSubscribedRiddles(List<Riddle> subscribedRiddles) {
-		this.subscribedRiddles = subscribedRiddles;
-	}
-	public Instant getCreated() {
-		return created;
-	}
-	public void setCreated(Instant created) {
-		this.created = created;
-	}
-	public boolean isEnabled() {
-		return enabled;
-	}
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-	
-	
-	
+
 }

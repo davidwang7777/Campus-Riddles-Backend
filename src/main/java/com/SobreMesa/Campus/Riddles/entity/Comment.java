@@ -7,8 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table (name = "comments")
 public class Comment {
 
@@ -27,34 +31,6 @@ public class Comment {
 		super();
 		this.text = text;
 		this.hunter_username = hunter_username;
-	}
-	public String getText() {
-		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
-	}
-	public String getHunter_username() {
-		return hunter_username;
-	}
-	public void setHunter_username(String hunter_username) {
-		this.hunter_username = hunter_username;
-	}
-
-	public int getForum_id() {
-		return forum_id;
-	}
-
-	public void setForum_id(int forum_id) {
-		this.forum_id = forum_id;
-	}
-
-	public Instant getCreated() {
-		return created;
-	}
-
-	public void setCreated(Instant created) {
-		this.created = created;
 	}
 
 	

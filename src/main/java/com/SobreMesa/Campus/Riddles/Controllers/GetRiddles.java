@@ -62,7 +62,7 @@ import Enum.ResponseStatus;
 
 //@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api") // 
 public class GetRiddles {
 	
 	@Autowired
@@ -190,7 +190,7 @@ public class GetRiddles {
 		}
 	}
 
-	@GetMapping("riddles")
+	@GetMapping("riddles") // www.campusriddles.com/api/riddles
 	public RiddlesResponse getRiddles(@RequestParam("sort") String order){
 		/*
 		 * This method gets all riddles available in the database

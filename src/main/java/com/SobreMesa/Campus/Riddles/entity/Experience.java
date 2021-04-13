@@ -1,11 +1,16 @@
 package com.SobreMesa.Campus.Riddles.entity;
 
+import java.time.Instant;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
 
 /*
  * @ManyToOne annotation says there are many experiences to one Riddle. 
@@ -15,6 +20,8 @@ import javax.persistence.Table;
  */
 
 @Entity
+@Getter
+@Setter
 @Table(name = "experiences")
 public class Experience {
 	@Id
@@ -28,20 +35,4 @@ public class Experience {
 		this.type = type;
 		this.level = level;
 	}
-	
-	public int getType() {
-		return type;
-	}
-	public void setType(int type) {
-		this.type = type;
-	}
-	public int getLevel() {
-		return level;
-	}
-	public void setLevel(int level) {
-		this.level = level;
-	}
-	
-	
-	
 }

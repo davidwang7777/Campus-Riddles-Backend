@@ -12,8 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "community_forum")
 public class CommunityForum {
 	@Id
@@ -50,69 +54,4 @@ public class CommunityForum {
 		this.media = media;
 		this.hunter_username = hunter_username;
 	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public String getMedia() {
-		return media;
-	}
-	public void setMedia(String media) {
-		this.media = media;
-	}
-	public String getHunter_username() {
-		return hunter_username;
-	}
-	public void setHunter_username(String hunter_username) {
-		this.hunter_username = hunter_username;
-	}
-	public List<Comment> getComments() {
-		return comments;
-	}
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
-	public int getHunter_id() {
-		return hunter_id;
-	}
-	public void setHunter_id(int hunter_id) {
-		this.hunter_id = hunter_id;
-	}
-	public List<Vote> getVotes() {
-		return votes;
-	}
-	public void setVotes(List<Vote> votes) {
-		this.votes = votes;
-	}
-	public int getVotecount() {
-		return votecount;
-	}
-	public void setVotecount(int votecount) {
-		this.votecount = votecount;
-	}
-	public Instant getCreated() {
-		return created;
-	}
-	public void setCreated(Instant created) {
-		this.created = created;
-	}
-	
-
-	
 }

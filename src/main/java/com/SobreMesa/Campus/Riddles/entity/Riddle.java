@@ -20,8 +20,12 @@ import javax.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "riddles")
 public class Riddle {
 	
@@ -77,61 +81,6 @@ public class Riddle {
 		//this.riddler = riddler;
 		this.location = location;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public int getDifficulty() {
-		return difficulty;
-	}
-	public void setDifficulty(int difficulty) {
-		this.difficulty = difficulty;
-	}
-	public String getPrize() {
-		return prize;
-	}
-	public void setPrize(String prize) {
-		this.prize = prize;
-	}
-	public String getRiddlername() {
-		return riddlername;
-	}
-	public void setRiddlername(String riddlername) {
-		this.riddlername = riddlername;
-	}
-//	public int getLevels() {
-//		return levels;
-//	}
-//	public void setLevels(int levels) {
-//		this.levels = levels;
-//	}
-	public String getRiddledescription() {
-		return riddledescription;
-	}
-	public void setRiddledescription(String riddledescription) {
-		this.riddledescription = riddledescription;
-	}
-	public String getLocation() {
-		return location;
-	}
-	public void setLocation(String location) {
-		this.location = location;
-	}
-//	public Riddler getRiddler() {
-//		return riddler;
-//	}
-//	public void setRiddler(Riddler riddler) {
-//		this.riddler = riddler;
-//	}
-
 	
 	public void printAllFields() {
 		System.out.println("The riddle object looks like:");
@@ -145,50 +94,6 @@ public class Riddle {
 		System.out.println("location:" + this.location);
 		//System.out.println("riddler username:" + this.riddler.getUsername());
 	}
-	/*
-	
-	/*
-	 * GETTERS AND SETTERS
-	 */
-	public int getRiddler_id() {
-		return riddler_id;
-	}
-	public void setRiddler_id(int riddler_id) {
-		this.riddler_id = riddler_id;
-	}
-	public List<Level> getLevels() {
-		return levels;
-	}
-	public void setLevels(List<Level> levels) {
-		this.levels = levels;
-	}
-	public boolean isCompleted() {
-		return completed;
-	}
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
-	}
-	public Instant getCreated() {
-		return created;
-	}
-	public void setCreated(Instant created) {
-		this.created = created;
-	}
-	public String getCompletedby() {
-		return completedby;
-	}
-	public void setCompletedby(String completedBy) {
-		this.completedby = completedBy;
-	}
-
-	public String getCreatedstring() {
-		return createdstring;
-	}
-	public void setCreatedstring(String createdstring) {
-		this.createdstring = createdstring;
-	}
-	
-	
 	/*
 	 * OPERATIONS
 	 */

@@ -6,8 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name="votes")
 public class Vote {
 
@@ -25,23 +29,4 @@ public class Vote {
 		this.vote = vote;
 		this.hunter_username = hunter_username;
 	}
-	public int getVote() {
-		return vote;
-	}
-	public void setVote(int vote) {
-		this.vote = vote;
-	}
-	public String getHunter_username() {
-		return hunter_username;
-	}
-	public void setHunter_username(String hunter_username) {
-		this.hunter_username = hunter_username;
-	}
-	public int getfk_vote_forum() {
-		return fk_vote_forum;
-	}
-	public void setfk_vote_forum(int fK_vote_forum) {
-		fk_vote_forum = fK_vote_forum;
-	}
-	
 }
